@@ -5,11 +5,15 @@
  */
 package sigecmed;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 
 /**
@@ -18,16 +22,23 @@ import javafx.scene.control.Label;
  */
 public class FXMLDocumentController implements Initializable {
     
-    @FXML
     private Label label;
-    
     @FXML
+    private JFXButton botonIngresar;
+    @FXML
+    private JFXTextField usuario;
+    @FXML
+    private JFXPasswordField contrasenia;
+    @FXML
+    private JFXButton botonCerrar;
+    @FXML
+    private Hyperlink linkContraseniaOlvidada;
+    
     private void handleButtonAction(ActionEvent event) {
         System.out.println("You clicked me!");
         label.setText("Hello World!");
     }
     
-    @FXML
     private void handleCerrar(ActionEvent event) {
         System.exit(0);
     }
@@ -36,5 +47,18 @@ public class FXMLDocumentController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
+
+    @FXML
+    private void ingresarAVistaDelUsuario(ActionEvent event) {
+    }
+
+    @FXML
+    private void recuperarContrasenia(ActionEvent event) {
+    }
+
+    @FXML
+    private void cerrarPrincipal(ActionEvent event) {
+        System.exit(0);
+    }
     
 }
