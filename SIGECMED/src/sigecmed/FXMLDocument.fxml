@@ -1,14 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sigecmed.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="435.0" prefWidth="889.0" style="-fx-background-color: #4658E4; -fx-border-color: #11336B;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sigecmed.FXMLDocumentController">
     <children>
-        <Button layoutX="126" layoutY="90" text="Click Me!" onAction="#handleButtonAction" fx:id="button" />
-        <Label layoutX="126" layoutY="120" minHeight="16" minWidth="69" fx:id="label" />
+      <ImageView fitHeight="431.0" fitWidth="554.0" layoutY="2.0" mouseTransparent="true" opacity="0.37" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../imagenes/cita2.1.jpg" />
+         </image>
+      </ImageView>
+      <AnchorPane blendMode="SRC_ATOP" layoutX="585.0" layoutY="38.0" prefHeight="359.0" prefWidth="291.0" style="-fx-background-color: #FC5E6A; -fx-background-radius: 7.5;">
+         <children>
+            <Label layoutX="98.0" layoutY="36.0" text="BIENVENIDO">
+               <font>
+                  <Font name="Tw Cen MT Condensed" size="28.0" />
+               </font>
+            </Label>
+            <JFXButton fx:id="botonIngresar" layoutX="98.0" layoutY="234.0" onAction="#ingresarAVistaDelUsuario" prefHeight="31.0" prefWidth="95.0" style="-fx-background-color: #E55660; -fx-background-radius: 7.5;" text="Ingresar" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXButton>
+            <Hyperlink fx:id="linkContraseniaOlvidada" blendMode="COLOR_BURN" layoutX="73.0" layoutY="292.0" onAction="#recuperarContrasenia" text="¿ Olvidó su contraseña ?" textAlignment="CENTER" textFill="#090b8d" textOverrun="LEADING_ELLIPSIS">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Hyperlink>
+            <JFXTextField fx:id="usuario" alignment="BOTTOM_CENTER" focusColor="#87fffb" layoutX="34.0" layoutY="68.0" prefHeight="57.0" prefWidth="223.0" promptText="Usuario" unFocusColor="#fffefe">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <effect>
+                  <Glow level="0.24" />
+               </effect>
+            </JFXTextField>
+            <JFXPasswordField fx:id="contrasenia" alignment="BOTTOM_CENTER" blendMode="SRC_ATOP" focusColor="#87fffb" layoutX="34.0" layoutY="139.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="57.0" prefWidth="223.0" promptText="Contraseña" unFocusColor="WHITE">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <effect>
+                  <Glow level="0.24" />
+               </effect>
+            </JFXPasswordField>
+         </children>
+      </AnchorPane>
+      <JFXButton fx:id="botonCerrar" layoutX="876.0" layoutY="2.0" onAction="#cerrarPrincipal" style="-fx-background-color: #616DCF;" text="X" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </JFXButton>
+      <Text layoutX="46.0" layoutY="310.0" strokeType="OUTSIDE" strokeWidth="0.0" text="AGENDA MÉDICA">
+         <font>
+            <Font name="Tw Cen MT Condensed" size="60.0" />
+         </font>
+      </Text>
+      <Label layoutX="46.0" layoutY="340.0" text="Departamento de Bienestar Estudiantil">
+         <font>
+            <Font name="System Italic" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="46.0" layoutY="377.0" prefHeight="27.0" prefWidth="185.0" text="Escuela Politécnica Nacional">
+         <font>
+            <Font name="System Italic" size="15.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>
