@@ -21,7 +21,7 @@ public class SIGECMED extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLCredenciales.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("FXMLAdmin.fxml"));
         
         Scene scene = new Scene(root);
         
