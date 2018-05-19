@@ -26,7 +26,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private JFXButton botonIngresar;
     @FXML
-    private JFXTextField usuario;
+    private JFXTextField usuario = new JFXTextField();
     @FXML
     private JFXPasswordField contrasenia;
     @FXML
@@ -50,7 +50,13 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void ingresarAVistaDelUsuario(ActionEvent event) {
+        //temporal: redigir FXML con usuario
         
+        if(usuario.getText().equalsIgnoreCase("doctor")){ 
+            
+        }else if(usuario.getText().equalsIgnoreCase("secretaria")){ 
+            
+        }
     }
 
     @FXML

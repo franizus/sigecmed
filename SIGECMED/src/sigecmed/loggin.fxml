@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="452.0" prefWidth="902.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sigecmed.LogginController">
+   <children>
+      <AnchorPane layoutX="580.0" prefHeight="452.0" prefWidth="335.0" style="-fx-background-color: #FC5E6A;">
+         <children>
+            <JFXButton fx:id="botonCerrar" layoutX="299.0" layoutY="-3.0" minHeight="19.0" minWidth="45.0" onAction="#cerrarPrincipal" prefHeight="38.0" prefWidth="43.0" style="-fx-background-color: #FD939B; -fx-background-radius: 10;" text="X" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </JFXButton>
+            <Text layoutX="94.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BIENVENIDO">
+               <font>
+                  <Font name="Tw Cen MT Condensed" size="41.0" />
+               </font>
+            </Text>
+            <JFXTextField fx:id="textUsuario" alignment="CENTER" labelFloat="true" layoutX="77.0" layoutY="207.0" promptText="Usuario" unFocusColor="#60bfd0">
+               <font>
+                  <Font size="17.0" />
+               </font>
+               <effect>
+                  <Blend />
+               </effect>
+            </JFXTextField>
+            <JFXPasswordField fx:id="textContrasena" alignment="CENTER" labelFloat="true" layoutX="77.0" layoutY="276.0" promptText="Contraseña" unFocusColor="#60bfd0">
+               <effect>
+                  <Blend />
+               </effect>
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </JFXPasswordField>
+            <JFXButton fx:id="botonIngresar" layoutX="124.0" layoutY="349.0" onAction="#irAPantallaUsuario" prefHeight="44.0" prefWidth="94.0" style="-fx-background-color: #D6505A;" text="INGRESAR" textFill="#02061b">
+               <font>
+                  <Font name="Tw Cen MT Condensed" size="21.0" />
+               </font>
+               <effect>
+                  <Lighting>
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant />
+                     </light>
+                  </Lighting>
+               </effect>
+            </JFXButton>
+            <ImageView fitHeight="102.0" fitWidth="126.0" layoutX="116.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../imagenes/login2.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <ImageView fitHeight="454.0" fitWidth="580.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../imagenes/cita2.1.jpg" />
+         </image>
+      </ImageView>
+      <Text layoutX="60.0" layoutY="327.0" strokeType="OUTSIDE" strokeWidth="0.0" text="AGENDA MÉDICA">
+         <font>
+            <Font name="Tw Cen MT Condensed" size="62.0" />
+         </font>
+      </Text>
+      <Text fill="#1523c3" layoutX="61.0" layoutY="382.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unidad de Bienestar Estudiantil">
+         <font>
+            <Font name="Tw Cen MT Condensed" size="32.0" />
+         </font>
+      </Text>
+      <Text fill="#cd2b2b" layoutX="60.0" layoutY="420.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Escuela Politécnica Nacional">
+         <font>
+            <Font name="Tw Cen MT Condensed" size="25.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="762.0" style="-fx-background-color: #7FE2F8;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doctorGUI.CitasDoctorController">
+   <children>
+      <Text fontSmoothingType="LCD" layoutX="450.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DOCTOR" textAlignment="CENTER" wrappingWidth="251.26953125">
+         <font>
+            <Font name="Tw Cen MT Condensed" size="55.0" />
+         </font>
+      </Text>
+      <JFXTabPane layoutX="-21.0" layoutY="43.0" prefHeight="534.0" prefWidth="762.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <tabs>
+            <Tab text="Mi agenda">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+            </Tab>
+            <Tab text="Atención paciente">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox layoutX="8.0" layoutY="7.0" prefHeight="350.0" prefWidth="445.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                            <TitledPane animated="false" prefHeight="259.0" prefWidth="762.0" text="Datos del paciente">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <JFXTextField fx:id="textNombre" layoutX="168.0" layoutY="26.0" prefHeight="25.0" prefWidth="376.0" promptText="Ingresar apellidos" />
+                                          <JFXButton fx:id="botonBuscarPaciente" layoutX="623.0" layoutY="24.0" onAction="#buscarPaciente" prefHeight="30.0" prefWidth="83.0" style="-fx-background-color: #DCDCDC;" text="Buscar" />
+                                          <Label layoutX="42.0" layoutY="26.0" prefHeight="26.0" prefWidth="68.0" text="Nombre" />
+                                          <Label layoutX="42.0" layoutY="73.0" prefHeight="34.0" prefWidth="85.0" text="Tratamientos" />
+                                          <JFXListView fx:id="listaTratamientos1" layoutX="168.0" layoutY="82.0" prefHeight="93.0" prefWidth="377.0" />
+                                          <JFXButton fx:id="botonRegistrarPaciente" layoutX="623.0" layoutY="122.0" onAction="#registrarAtencionCita" prefHeight="36.0" prefWidth="89.0" style="-fx-background-color: #DCDCDC;" text="Registrar cita" />
+                                       </children></AnchorPane>
+                              </content>
+                            </TitledPane>
+                              <Accordion prefHeight="295.0" prefWidth="762.0">
+                                <panes>
+                                  <TitledPane animated="false" prefWidth="762.0" text="Registro de atención médica">
+                                    <content>
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                             <children>
+                                                <Label layoutX="48.0" layoutY="23.0" prefHeight="23.0" prefWidth="87.0" text="Tratamiento" />
+                                                <Label layoutX="48.0" layoutY="67.0" prefHeight="23.0" prefWidth="87.0" text="Duración" />
+                                                <JFXRadioButton fx:id="radiioButSI" layoutX="171.0" layoutY="17.0" prefHeight="34.0" prefWidth="71.0" text="Si" />
+                                                <JFXRadioButton fx:id="radioButNO" layoutX="269.0" layoutY="14.0" prefHeight="40.0" prefWidth="70.0" text="No" />
+                                                <JFXTextField fx:id="textDiasTratamiento" layoutX="171.0" layoutY="66.0" prefHeight="25.0" prefWidth="36.0" promptText="Días" />
+                                                <Label layoutX="365.0" layoutY="67.0" prefHeight="23.0" prefWidth="74.0" text="Fecha Inicio" />
+                                                <JFXDatePicker fx:id="fechaInicio" layoutX="481.0" layoutY="66.0" prefHeight="25.0" prefWidth="208.0" />
+                                                <JFXButton fx:id="botonCancelar" layoutX="608.0" layoutY="164.0" onAction="#cancelarAtencionCita" prefHeight="36.0" prefWidth="89.0" style="-fx-background-color: #DCDCDC;" text="Cancelar" />
+                                                <JFXButton fx:id="botonGuardarCita" layoutX="481.0" layoutY="164.0" onAction="#guardarAtencionCita" prefHeight="36.0" prefWidth="89.0" style="-fx-background-color: #DCDCDC;" text="Guardar" />
+                                                <Label layoutX="48.0" layoutY="123.0" prefHeight="23.0" prefWidth="87.0" text="Comentario" />
+                                                <JFXTextArea fx:id="comentarioCitaM" layoutX="171.0" layoutY="123.0" prefHeight="81.0" prefWidth="268.0" />
+                                             </children></AnchorPane>
+                                    </content>
+                                  </TitledPane>
+                                </panes>
+                              </Accordion>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Estadísticas">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+            </Tab>
+         </tabs>
+      </JFXTabPane>
+   </children>
+</AnchorPane>
