@@ -45,14 +45,26 @@ public class LogginViewController implements Initializable {
 
     @FXML
     private void toUserUI(ActionEvent event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/secretaria/menu/MenuSecretariaView.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root1));
-            stage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(LogginViewController.class.getName()).log(Level.SEVERE, null, ex);
+        if (textUsuario.getText().equals("admin")) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/admin/AdminView.fxml"));
+                Parent root1 = (Parent) fxmlLoader.load();
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root1));
+                stage.show();
+            } catch (IOException ex) {
+                Logger.getLogger(LogginViewController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/secretaria/menu/MenuSecretariaView.fxml"));
+                Parent root1 = (Parent) fxmlLoader.load();
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root1));
+                stage.show();
+            } catch (IOException ex) {
+                Logger.getLogger(LogginViewController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
         Stage stage1 = (Stage) botonIngresar.getScene().getWindow();

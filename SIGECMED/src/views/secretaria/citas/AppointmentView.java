@@ -177,8 +177,16 @@ public class AppointmentView extends AnchorPane {
         getChildren().add(gridPane);
 
     }
+
+    public JFXTextField getjFXTextField() {
+        return jFXTextField;
+    }
     
     public JFXButton getBtn1() {
         return btn1;
+    }
+    
+    public JFXDatePicker getJFXDatePicker() {
+        return jFXDatePicker;
     }
 }

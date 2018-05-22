@@ -5,15 +5,21 @@
  */
 package views.secretaria.menu;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import views.secretaria.citas.AppointmentView;
+import vies.secretaria.doctor.DoctorView;
+import views.login.LogginViewController;
 import views.secretaria.citas.CitasView;
 
 /**
@@ -38,19 +44,34 @@ public class MenuSecretariaViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         imagePaciente.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            System.out.println("Tile pressed ");
-            event.consume();
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/secretaria/paciente/PacienteView.fxml"));
+                Parent root1 = (Parent) fxmlLoader.load();
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root1));
+                stage.show();
+            } catch (IOException ex) {
+                Logger.getLogger(LogginViewController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
         
         imageDoctor.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            System.out.println("Tile pressed ");
-            event.consume();
+            DoctorView ap1 = new DoctorView();
+
+            Scene secondScene = new Scene(ap1, 900, 600);
+
+            Stage newWindow = new Stage();
+            newWindow.setTitle("Menu Doctor");
+            newWindow.setScene(secondScene);
+
+            newWindow.centerOnScreen();
+            newWindow.show();
         });
         
         imageCitas.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             CitasView ap1 = new CitasView();
 
-            Scene secondScene = new Scene(ap1, 1300, 900);
+            Scene secondScene = new Scene(ap1, 900, 600);
 
             Stage newWindow = new Stage();
             newWindow.setTitle("Menu Citas");
