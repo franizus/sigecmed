@@ -3,25 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sigecmed;
+package sigecmed.VistaSecre;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 
 /**
  * FXML Controller class
  *
  * @author Danilo
  */
-public class FXMLDocumentController implements Initializable {
-
-    @FXML
-    private Label label;
-    @FXML
-    private Label label1;
+public class FXMLController implements Initializable {
 
     /**
      * Initializes the controller class.
