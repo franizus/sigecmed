@@ -1,4 +1,4 @@
-package views.secretaria.citas;
+package secretaria;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
@@ -188,5 +188,13 @@ public class AppointmentView extends AnchorPane {
     
     public JFXDatePicker getJFXDatePicker() {
         return jFXDatePicker;
+    }
+
+    public JFXTimePicker getjFXTimePicker() {
+        return jFXTimePicker;
+    }
+
+    public JFXTimePicker getjFXTimePicker0() {
+        return jFXTimePicker0;
     }
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: WHITE;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.141">
+   <children>
+      <JFXTreeTableView layoutX="27.0" layoutY="23.0" prefHeight="310.0" prefWidth="546.0" />
+      <JFXButton fx:id="btnUserGuardar" layoutX="499.0" layoutY="349.0" onAction="#guardarUsuario" style="-fx-background-color: rgb(77,102,204);" text="Guardar" textFill="WHITE" />
+      <JFXButton fx:id="btnUserCancelar" layoutX="389.0" layoutY="349.0" style="-fx-background-color: #669966;" text="Cancelar" textFill="WHITE" />
+   </children>
+</AnchorPane>

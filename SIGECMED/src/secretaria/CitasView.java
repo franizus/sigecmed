@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package views.secretaria.citas;
+package secretaria;
 
 import com.calendarfx.model.Calendar;
 import com.calendarfx.model.CalendarSource;
@@ -83,21 +83,16 @@ public class CitasView extends BorderPane{
                 AppointmentView ap1 = new AppointmentView();
                 LocalDate date = calendarView.getYearMonthView().getDate();
                 ap1.getJFXDatePicker().setValue(date);
-                ap1.getjFXTextField().setEditable(false);
+                //ap1.getjFXTextField().setEditable(false);
                 ap1.getBtn1().setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
-                        AppointmentView ap1 = new AppointmentView();
-                        ap1.getBtn1().setOnAction(this);
-
-                        Scene secondScene = new Scene(ap1, 600, 400);
-
-                        Stage newWindow = new Stage();
-                        newWindow.setTitle("Second Stage");
-                        newWindow.setScene(secondScene);
-
-                        newWindow.centerOnScreen();
-                        newWindow.show();
+                        Entry entry = new Entry(ap1.getjFXTextField().getText());
+                        Interval interval = new Interval(ap1.getJFXDatePicker().getValue(), ap1.getjFXTimePicker0().getValue(), ap1.getJFXDatePicker().getValue(), ap1.getjFXTimePicker().getValue());
+                        entry.setInterval(interval);
+                        cal1.addEntry(entry);
+                        Stage stage1 = (Stage) ap1.getBtn1().getScene().getWindow();
+                        stage1.close();
                     }
                 });
 

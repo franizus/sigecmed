@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package views.secretaria.menu;
+package secretaria;
 
 import java.io.IOException;
 import java.net.URL;
@@ -18,9 +18,9 @@ import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import vies.secretaria.doctor.DoctorView;
-import views.login.LogginViewController;
-import views.secretaria.citas.CitasView;
+import secretaria.DoctorView;
+import login.LogginViewController;
+import secretaria.CitasView;
 
 /**
  * FXML Controller class
@@ -58,7 +58,7 @@ public class MenuSecretariaViewController implements Initializable {
         imageDoctor.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             DoctorView ap1 = new DoctorView();
 
-            Scene secondScene = new Scene(ap1, 900, 600);
+            Scene secondScene = new Scene(ap1, 1000, 700);
 
             Stage newWindow = new Stage();
             newWindow.setTitle("Menu Doctor");
@@ -71,7 +71,7 @@ public class MenuSecretariaViewController implements Initializable {
         imageCitas.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             CitasView ap1 = new CitasView();
 
-            Scene secondScene = new Scene(ap1, 900, 600);
+            Scene secondScene = new Scene(ap1, 1000, 700);
 
             Stage newWindow = new Stage();
             newWindow.setTitle("Menu Citas");

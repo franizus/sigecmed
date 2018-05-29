@@ -1,4 +1,4 @@
-package views.secretaria.citas;
+package secretaria;
 
 import com.calendarfx.model.Calendar;
 import com.calendarfx.model.Calendar.Style;
