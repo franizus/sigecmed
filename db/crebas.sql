@@ -1,24 +1,3 @@
--- MySQL dump 10.13  Distrib 8.0.11, for Win64 (x86_64)
---
--- Host: 127.0.0.1    Database: sigecmed_db
--- ------------------------------------------------------
--- Server version	8.0.11
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
- SET NAMES utf8mb4 ;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Table structure for table `cita`
---
-
 DROP TABLE IF EXISTS `cita`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
@@ -65,7 +44,7 @@ CREATE TABLE `doctor` (
   PRIMARY KEY (`ID_DOCTOR`),
   KEY `FK_TIENE` (`ID_ESPECIALIDAD`),
   CONSTRAINT `FK_TIENE` FOREIGN KEY (`ID_ESPECIALIDAD`) REFERENCES `especialidad` (`id_especialidad`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,6 +53,7 @@ CREATE TABLE `doctor` (
 
 LOCK TABLES `doctor` WRITE;
 /*!40000 ALTER TABLE `doctor` DISABLE KEYS */;
+INSERT INTO `doctor` VALUES (1,1,'Diego Serrano','1709778441','La Granja','0978982158','diego@gmail.com'),(2,1,'Francisco','1723126122','Carvajal','0978897812','francisco@gmail.com');
 /*!40000 ALTER TABLE `doctor` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -88,7 +68,7 @@ CREATE TABLE `especialidad` (
   `ID_ESPECIALIDAD` int(11) NOT NULL AUTO_INCREMENT,
   `NOMBRE` varchar(20) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`ID_ESPECIALIDAD`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -97,6 +77,7 @@ CREATE TABLE `especialidad` (
 
 LOCK TABLES `especialidad` WRITE;
 /*!40000 ALTER TABLE `especialidad` DISABLE KEYS */;
+INSERT INTO `especialidad` VALUES (1,'Dentista'),(2,'Medico General');
 /*!40000 ALTER TABLE `especialidad` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -256,7 +237,7 @@ CREATE TABLE `usuario` (
   `SALT` varchar(40) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`ID_USUARIO`),
   KEY `FK_RELATIONSHIP_3` (`ID_ROL`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -265,10 +246,11 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (2,1,'admin','Mr5pWPRnitgNq7l4QaFv4GrdhEMFcMwaGAlaNJBmVYQ=',0,'Z7UGFTNtINRnjBV56izv4UXwyBWIYT'),(3,3,'secre','LEVVmL3RnCgVm8QDw3NzN3SaedMPewdUs992i0iiQzs=',1,'PqPbunO2Tpm45nJtQ6w1SXl3HrK3bB');
+INSERT INTO `usuario` VALUES (2,1,'admin','Mr5pWPRnitgNq7l4QaFv4GrdhEMFcMwaGAlaNJBmVYQ=',0,'Z7UGFTNtINRnjBV56izv4UXwyBWIYT'),(3,3,'secre','LEVVmL3RnCgVm8QDw3NzN3SaedMPewdUs992i0iiQzs=',1,'PqPbunO2Tpm45nJtQ6w1SXl3HrK3bB'),(4,2,'francisco','kZekmYtGBXm2CJ7SD52myglQzBRTFV8BKNmUQ0DpW7M=',2,'B7DEmQEKIQOcAAHy6lGSDNCMeQbF5i');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+/*!50606 SET GLOBAL INNODB_STATS_AUTO_RECALC=@OLD_INNODB_STATS_AUTO_RECALC */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
@@ -278,4 +260,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-29 12:50:42
+-- Dump completed on 2018-06-03 14:25:35
