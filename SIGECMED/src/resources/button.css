@@ -1,0 +1,15 @@
+* {
+    -fx-primary : #689F38;
+    -fx-secondary : WHITE;
+}
+
+.button{
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -jfx-button-type: RAISED;
+    -fx-background-color: -fx-primary;
+    -fx-text-fill: -fx-secondary;
+    -fx-font-size: 13pt;
+    -fx-pref-width: 100;
+    -fx-pref-height: 30;
+}

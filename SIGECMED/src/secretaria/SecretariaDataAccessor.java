@@ -51,10 +51,10 @@ public class SecretariaDataAccessor {
         }
     }
     
-    public List<Secretaria> getUsersList() throws SQLException {
+    public List<Secretaria> getSecretariaList() throws SQLException {
         try (
             Statement stmnt = connection.createStatement();
-            ResultSet rs = stmnt.executeQuery("select * from usuario");
+            ResultSet rs = stmnt.executeQuery("select * from secretaria");
         ){
             List<Secretaria> secretariaList = new ArrayList<>();
             while (rs.next()) {

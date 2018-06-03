@@ -22,7 +22,9 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/login/LoginView.fxml"));
         Scene scene = new Scene(root);
-        
+        stage.setWidth(902);
+        stage.setHeight(452);
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
     }

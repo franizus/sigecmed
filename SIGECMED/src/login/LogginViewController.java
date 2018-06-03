@@ -23,6 +23,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -57,10 +59,23 @@ public class LogginViewController implements Initializable {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(LogginViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }    
+        
+        botonIngresar.setStyle("-fx-padding: 0.7em 0.57em;-fx-font-size: 16px;-jfx-button-type: RAISED;-fx-background-color: rgb(77,102,204);-fx-pref-width: 94;-fx-pref-height: 44;-fx-text-fill: WHITE;");
+    }
+    
+    @FXML
+    void handle(KeyEvent event) {
+        if (event.getCode().equals(KeyCode.ENTER)) {
+            botonIngresarAction();
+        }
+    }
 
     @FXML
     private void toUserUI(ActionEvent event) {
+        botonIngresarAction();
+    }
+    
+    private void botonIngresarAction() {
         String user = textUsuario.getText();
         String password = textContrasena.getText();
         Stage stage1 = (Stage) botonIngresar.getScene().getWindow();
@@ -93,9 +108,9 @@ public class LogginViewController implements Initializable {
                         JFXDialog dialog = getDialog("Datos de ingreso no son correctos.");
                         dialog.show();
                     }
-
+                    break;
                 case 2:
-                    
+                    break;
                 case 3:
                     if (PasswordUtility.verifyUserPassword(password, userSignedIn.getContrasena(), userSignedIn.getSalt())) {
                         try {
@@ -112,7 +127,7 @@ public class LogginViewController implements Initializable {
                         JFXDialog dialog = getDialog("Datos de ingreso no son correctos.");
                         dialog.show();
                     }
-                    
+                    break;
                 default:
                     JFXDialog dialog = getDialog("Usuario no encontrado en el sistema.");
                     dialog.show();
