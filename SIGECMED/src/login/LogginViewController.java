@@ -81,8 +81,7 @@ public class LogginViewController implements Initializable {
         Stage stage1 = (Stage) botonIngresar.getScene().getWindow();
         
         if (user.isEmpty() || password.isEmpty()) {
-            JFXDialog dialog = getDialog("Los datos de ingreso no pueden estar vacios.");
-            dialog.show();
+            getDialog("Los datos de ingreso no pueden estar vacios.").show();
         } else {
             User userSignedIn = new User();
             try {
@@ -105,8 +104,7 @@ public class LogginViewController implements Initializable {
                         }
                         stage1.close();
                     } else {
-                        JFXDialog dialog = getDialog("Datos de ingreso no son correctos.");
-                        dialog.show();
+                        getDialog("Datos de ingreso no son correctos.").show();
                     }
                     break;
                 case 2:
@@ -124,13 +122,11 @@ public class LogginViewController implements Initializable {
                         }
                         stage1.close();
                     } else {
-                        JFXDialog dialog = getDialog("Datos de ingreso no son correctos.");
-                        dialog.show();
+                        getDialog("Datos de ingreso no son correctos.").show();
                     }
                     break;
                 default:
-                    JFXDialog dialog = getDialog("Usuario no encontrado en el sistema.");
-                    dialog.show();
+                    getDialog("Usuario no encontrado en el sistema.").show();
             }
         }
     }

@@ -32,30 +32,33 @@ public class SecretariaDataAccessor {
         }
     }
     
-    public Secretaria getSecretaria(int id) throws SQLException {
-        Statement stmnt = connection.createStatement();
-        String query = "select * from secretaria where ID_SECRETARIA = '" + id + "'";
-        ResultSet rs = stmnt.executeQuery(query);
-        
-        if (rs.next()) {
-            int id_secretaria = rs.getInt("ID_SECRETARIA");
-            String nombre = rs.getString("NOMBRE_SEC");
-            String cedula = rs.getString("CEDULA_SEC");
-            String direccion = rs.getString("DIRECCION_SEC");
-            String telefono = rs.getString("TELEFONO_SEC");
-            String correo = rs.getString("CORREO_SEC");
-            Secretaria secretaria = new Secretaria(id_secretaria, nombre, cedula, direccion, telefono, correo);
-            return secretaria;
-        } else {
-            return new Secretaria();
+    public Secretaria getSecretaria(int id) {
+        try {
+            Statement stmnt = connection.createStatement();
+            String query = "select * from secretaria where ID_SECRETARIA = '" + id + "'";
+            ResultSet rs = stmnt.executeQuery(query);
+            
+            if (rs.next()) {
+                int id_secretaria = rs.getInt("ID_SECRETARIA");
+                String nombre = rs.getString("NOMBRE_SEC");
+                String cedula = rs.getString("CEDULA_SEC");
+                String direccion = rs.getString("DIRECCION_SEC");
+                String telefono = rs.getString("TELEFONO_SEC");
+                String correo = rs.getString("CORREO_SEC");
+                Secretaria secretaria = new Secretaria(id_secretaria, nombre, cedula, direccion, telefono, correo);
+                return secretaria;
+            } else {
+                return new Secretaria();
+            }
+        } catch (SQLException ex) {
+            return null;
         }
     }
     
-    public List<Secretaria> getSecretariaList() throws SQLException {
+    public List<Secretaria> getSecretariaList() {
         try (
             Statement stmnt = connection.createStatement();
-            ResultSet rs = stmnt.executeQuery("select * from secretaria");
-        ){
+            ResultSet rs = stmnt.executeQuery("select * from secretaria");) {
             List<Secretaria> secretariaList = new ArrayList<>();
             while (rs.next()) {
                 int id_secretaria = rs.getInt("ID_SECRETARIA");
@@ -67,8 +70,10 @@ public class SecretariaDataAccessor {
                 Secretaria secretaria = new Secretaria(id_secretaria, nombre, cedula, direccion, telefono, correo);
                 secretariaList.add(secretaria);
             }
-            return secretariaList ;
-        } 
+            return secretariaList;
+        } catch (SQLException ex) {
+            return null;
+        }
     }
     
 }
