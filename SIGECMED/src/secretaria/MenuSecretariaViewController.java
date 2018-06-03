@@ -18,9 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import secretaria.DoctorView;
 import login.LogginViewController;
-import secretaria.CitasView;
 
 /**
  * FXML Controller class

@@ -83,12 +83,7 @@ public class LogginViewController implements Initializable {
         if (user.isEmpty() || password.isEmpty()) {
             getDialog("Los datos de ingreso no pueden estar vacios.").show();
         } else {
-            User userSignedIn = new User();
-            try {
-                userSignedIn = dataAccessor.getUser(user);
-            } catch (SQLException ex) {
-                Logger.getLogger(LogginViewController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            User userSignedIn = dataAccessor.getUser(user);
             
             switch(userSignedIn.getId_rol()) {
                 case 1:

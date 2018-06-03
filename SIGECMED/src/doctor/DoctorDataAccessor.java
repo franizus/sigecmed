@@ -58,6 +58,26 @@ public class DoctorDataAccessor {
         }
     }
     
+    public Especialidad getEspecialidad(int id) {
+        try {
+            String query = "select * from especialidad where ID_ESPECIALIDAD = ?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                int id_especialidad = rs.getInt("ID_ESPECIALIDAD");
+                String nombre = rs.getString("NOMBRE");
+                Especialidad esp = new Especialidad(id_especialidad, nombre);
+                return esp;
+            } else {
+                return new Especialidad();
+            }
+        } catch (SQLException ex) {
+            return null;
+        }
+    }
+    
     public List<Doctor> getDoctorsList() {
         try (
             Statement stmnt = connection.createStatement();
@@ -80,7 +100,7 @@ public class DoctorDataAccessor {
         }
     }
     
-    public List<String> getEspecialidadList() {
+    public List<String> getEspecialidadStringList() {
         try (
             Statement stmnt = connection.createStatement();
             ResultSet rs = stmnt.executeQuery("select * from especialidad");) {
@@ -88,6 +108,23 @@ public class DoctorDataAccessor {
             while (rs.next()) {
                 String nombre = rs.getString("NOMBRE");
                 especialidadList.add(nombre);
+            }
+            return especialidadList;
+        } catch (SQLException ex) {
+            return null;
+        }
+    }
+    
+    public List<Especialidad> getEspecialidadList() {
+        try (
+            Statement stmnt = connection.createStatement();
+            ResultSet rs = stmnt.executeQuery("select * from especialidad");) {
+            List<Especialidad> especialidadList = new ArrayList<>();
+            while (rs.next()) {
+                int id = rs.getInt("ID_ESPECIALIDAD");
+                String nombre = rs.getString("NOMBRE");
+                Especialidad esp = new Especialidad(id, nombre);
+                especialidadList.add(esp);
             }
             return especialidadList;
         } catch (SQLException ex) {
@@ -144,6 +181,38 @@ public class DoctorDataAccessor {
             ps.setInt(1, id);
 
             ps.execute();
+            ps.close();
+            
+            return true;
+        } catch (SQLException ex) {
+            return false;
+        }
+    }
+    
+        public boolean insertNewEsp(Especialidad especialidad) {
+        try {
+            String query = "INSERT INTO especialidad (NOMBRE) VALUES (?)";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, especialidad.getNombre());
+
+            ps.execute();
+            ps.close();
+            connection.commit();
+            
+            return true;
+        } catch (SQLException ex) {
+            return false;
+        }
+    }
+    
+    public boolean updateEsp(Especialidad especialidad) {
+        try {
+            String query = "UPDATE especialidad SET NOMBRE = ? WHERE ID_ESPECIALIDAD = ?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, especialidad.getNombre());
+            ps.setInt(2, especialidad.getId_especialidad());
+
+            ps.executeUpdate();
             ps.close();
             
             return true;

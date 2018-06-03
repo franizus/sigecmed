@@ -7,6 +7,7 @@ package secretaria;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -34,9 +35,10 @@ public class SecretariaDataAccessor {
     
     public Secretaria getSecretaria(int id) {
         try {
-            Statement stmnt = connection.createStatement();
-            String query = "select * from secretaria where ID_SECRETARIA = '" + id + "'";
-            ResultSet rs = stmnt.executeQuery(query);
+            String query = "select * from secretaria where ID_SECRETARIA = ?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
             
             if (rs.next()) {
                 int id_secretaria = rs.getInt("ID_SECRETARIA");
@@ -73,6 +75,61 @@ public class SecretariaDataAccessor {
             return secretariaList;
         } catch (SQLException ex) {
             return null;
+        }
+    }
+    
+    public boolean insertNewSec(Secretaria sec) {
+        try {
+            String query = "INSERT INTO secretaria (NOMBRE_SEC, CEDULA_SEC, DIRECCION_SEC, TELEFONO_SEC, CORREO_SEC) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, sec.getNombre());
+            ps.setString(2, sec.getCedula());
+            ps.setString(3, sec.getDireccion());
+            ps.setString(4, sec.getTelefono());
+            ps.setString(5, sec.getCorreo());
+
+            ps.execute();
+            ps.close();
+            connection.commit();
+            
+            return true;
+        } catch (SQLException ex) {
+            return false;
+        }
+    }
+    
+    public boolean updateSec(Secretaria sec) {
+        try {
+            String query = "UPDATE secretaria SET NOMBRE_SEC = ?, CEDULA_SEC = ?, DIRECCION_SEC = ?, TELEFONO_SEC = ?, CORREO_SEC = ? WHERE ID_SECRETARIA = ?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, sec.getNombre());
+            ps.setString(2, sec.getCedula());
+            ps.setString(3, sec.getDireccion());
+            ps.setString(4, sec.getTelefono());
+            ps.setString(5, sec.getCorreo());
+            ps.setInt(6, sec.getId_secretaria());
+
+            ps.executeUpdate();
+            ps.close();
+            
+            return true;
+        } catch (SQLException ex) {
+            return false;
+        }
+    }
+    
+    public boolean deleteSec(int id) {
+        try {
+            String query = "DELETE FROM secretaria WHERE ID_SECRETARIA = ?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, id);
+
+            ps.execute();
+            ps.close();
+            
+            return true;
+        } catch (SQLException ex) {
+            return false;
         }
     }
     

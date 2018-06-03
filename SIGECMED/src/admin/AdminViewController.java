@@ -17,7 +17,8 @@ import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import doctor.Doctor;
 import doctor.DoctorDataAccessor;
-import java.io.IOException;
+import doctor.DoctorSearchView;
+import doctor.Especialidad;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -31,9 +32,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
@@ -43,11 +42,13 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import login.LogginViewController;
+import login.PasswordUtility;
 import login.User;
 import login.UserDataAccessor;
 import main.Globals;
 import secretaria.Secretaria;
 import secretaria.SecretariaDataAccessor;
+import secretaria.SecretariaSearchView;
 
 /**
  * FXML Controller class
@@ -60,18 +61,19 @@ public class AdminViewController implements Initializable {
     private DoctorDataAccessor doctorDataAccessor;
     private SecretariaDataAccessor secretariaDataAccessor;
     private boolean doctorSelected;
+    private boolean especialidadSelected;
+    private boolean secretariaSelected;
+    private boolean userSelected;
+    private Secretaria secretariaGlobal;
+    private Doctor doctorGlobal;
     @FXML
     private StackPane stackPane;
-    @FXML
-    private JFXComboBox rolCombo;
     @FXML
     private JFXTextField nombreUsuarioText;
     @FXML
     private JFXTextField usuarioText;
     @FXML
     private JFXPasswordField passwordText;
-    @FXML
-    private JFXButton btnUserGuardar;
     @FXML
     private JFXButton btnUsuarioBuscar;
     @FXML
@@ -84,14 +86,30 @@ public class AdminViewController implements Initializable {
     private JFXTextField telfDocText;
     @FXML
     private JFXTextField correoDocText;
+     @FXML
+    private JFXTextField nombreSecText;
+    @FXML
+    private JFXTextField cedulaSecText;
+    @FXML
+    private JFXTextField dirSecText;
+    @FXML
+    private JFXTextField telfSecText;
+    @FXML
+    private JFXTextField correoSecText;
+    @FXML
+    private JFXTextField especialidadText;
     @FXML
     private JFXComboBox<String> especialidadCombo;
+    @FXML
+    private JFXComboBox<String> rolCombo;
     @FXML
     private JFXTreeTableView<User> tableUsers;
     @FXML
     private JFXTreeTableView<Doctor> docTable;
     @FXML
     private JFXTreeTableView<Secretaria> secTable;
+    @FXML
+    private JFXTreeTableView<Especialidad> tableEspecialidad;
 
     /**
      * Initializes the controller class.
@@ -99,6 +117,9 @@ public class AdminViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         doctorSelected = false;
+        especialidadSelected = false;
+        secretariaSelected = false;
+        userSelected = false;
         
         try {
             userDataAccessor = new UserDataAccessor(Globals.driverClassName, Globals.dbURL, Globals.dbUSER, Globals.dbPassword);
@@ -112,11 +133,12 @@ public class AdminViewController implements Initializable {
         
         rolCombo.getItems().addAll("Administrador", "Doctor", "Secretaria");
         nombreUsuarioText.setEditable(false);
-        
+        btnUsuarioBuscar.setDisable(true);
         loadComboEsp();
         loadUsersTable();
         loadDoctorsTable();
         loadSecretariaTable();
+        loadEspecialidadTable();
     }
     
     @FXML
@@ -133,10 +155,39 @@ public class AdminViewController implements Initializable {
     }
     
     @FXML
+    void handleEspTable(MouseEvent event) {
+        int idEsp = tableEspecialidad.getSelectionModel().getSelectedItem().getValue().getId_especialidad();
+        Especialidad esp = doctorDataAccessor.getEspecialidad(idEsp);
+        especialidadText.setText(esp.getNombre());
+        especialidadSelected = true;
+    }
+
+    @FXML
+    void handleSecTable(MouseEvent event) {
+        int idSec = secTable.getSelectionModel().getSelectedItem().getValue().getId_secretaria();
+        Secretaria sec = secretariaDataAccessor.getSecretaria(idSec);
+        nombreSecText.setText(sec.getNombre());
+        cedulaSecText.setText(sec.getCedula());
+        dirSecText.setText(sec.getDireccion());
+        telfSecText.setText(sec.getTelefono());
+        correoSecText.setText(sec.getCorreo());
+        doctorSelected = true;
+    }
+
+    @FXML
+    void handleUserTable(MouseEvent event) {
+        String usuarioAux = tableUsers.getSelectionModel().getSelectedItem().getValue().getUsuario();
+        User user = userDataAccessor.getUser(usuarioAux);
+        rolCombo.getSelectionModel().select(user.getId_rol() - 1);
+        nombreUsuarioText.setText(userDataAccessor.getAssociateUserName(user.getId_asociado(), user.getId_rol()));
+        usuarioText.setText(user.getUsuario());
+        userSelected = true;
+    }
+    
+    @FXML
     void cancelarDoctor(ActionEvent event) {
         clearDoctor();
     }
-    
     
     @FXML
     void eliminarDoctor(ActionEvent event) {
@@ -146,11 +197,15 @@ public class AdminViewController implements Initializable {
         } else {
             getDialog("Debe seleccionar un Doctor para poder eliminarlo.").show();
         }
+        clearDoctor();
     }
 
     @FXML
     void guardarDoctor(ActionEvent event) {
-        int idDoc = docTable.getSelectionModel().getSelectedItem().getValue().getId_doctor();
+        int idDoc = 0;
+        if (doctorSelected) {
+            idDoc = docTable.getSelectionModel().getSelectedItem().getValue().getId_doctor();
+        }
         int idEsp = especialidadCombo.getSelectionModel().getSelectedIndex() + 1;
         String nombre = nombreDocText.getText();
         String cedula = cedulaDocText.getText();
@@ -166,11 +221,128 @@ public class AdminViewController implements Initializable {
             getDialog("Doctor ingresado al sistema con exito").show();
         }
         clearDoctor();
+        loadDoctorsTable();
+    }
+    
+    @FXML
+    void cancelarSecretaria(ActionEvent event) {
+        clearSecretaria();
+    }
+    
+    @FXML
+    void cancelarEsp(ActionEvent event) {
+        clearEsp();
+    }
+
+    @FXML
+    void cancelarUsuario(ActionEvent event) {
+        clearUser();
+    }
+    
+    @FXML
+    void eliminarEsp(ActionEvent event) {
+        if (especialidadSelected) {
+            int idEsp = tableEspecialidad.getSelectionModel().getSelectedItem().getValue().getId_especialidad();
+            getDeleteDialog("Seguro desea eliminar esta especialidad?", 4, idEsp).show();
+        } else {
+            getDialog("Debe seleccionar una Especialidad para poder eliminarla.").show();
+        }
+        clearEsp();
+    }
+    
+    @FXML
+    void eliminarUsuario(ActionEvent event) {
+        if (userSelected) {
+            int idUser = tableUsers.getSelectionModel().getSelectedItem().getValue().getId_user();
+            getDeleteDialog("Seguro desea eliminar este usuario?", 3, idUser).show();
+        } else {
+            getDialog("Debe seleccionar un Usuario para poder eliminarlo.").show();
+        }
+        clearUser();
+    }
+
+    @FXML
+    void eliminarSecretaria(ActionEvent event) {
+        if (secretariaSelected) {
+            int idSec = secTable.getSelectionModel().getSelectedItem().getValue().getId_secretaria();
+            getDeleteDialog("Seguro desea eliminar esta secretaria?", 2, idSec).show();
+        } else {
+            getDialog("Debe seleccionar una Secretaria para poder eliminarla.").show();
+        }
+        clearSecretaria();
+    }
+    
+    @FXML
+    void guardarEsp(ActionEvent event) {
+        int idEsp = 0;
+        if (especialidadSelected) {
+            idEsp = tableEspecialidad.getSelectionModel().getSelectedItem().getValue().getId_especialidad();
+        }
+        String nombre = especialidadText.getText();
+        Especialidad esp = new Especialidad(idEsp, nombre);
+        if (especialidadSelected) {
+            doctorDataAccessor.updateEsp(esp);
+            getDialog("Especialidad modificada con exito").show();
+        } else {
+            doctorDataAccessor.insertNewEsp(esp);
+            getDialog("Especialidad ingresada al sistema con exito").show();
+        }
+        clearEsp();
+        loadEspecialidadTable();
+    }
+
+    @FXML
+    void guardarSecretaria(ActionEvent event) {
+        int idSec = 0;
+        if (secretariaSelected) {
+            idSec = secTable.getSelectionModel().getSelectedItem().getValue().getId_secretaria();
+        }
+        String nombre = nombreSecText.getText();
+        String cedula = cedulaSecText.getText();
+        String direccion = dirSecText.getText();
+        String telefono = telfSecText.getText();
+        String correo = correoSecText.getText();
+        Secretaria sec = new Secretaria(idSec, nombre, cedula, direccion, telefono, correo);
+        if (secretariaSelected) {
+            secretariaDataAccessor.updateSec(sec);
+            getDialog("Secretaria modificada con exito").show();
+        } else {
+            secretariaDataAccessor.insertNewSec(sec);
+            getDialog("Secretaria ingresada al sistema con exito").show();
+        }
+        clearSecretaria();
+        loadSecretariaTable();
     }
     
     @FXML
     private void guardarUsuario(ActionEvent event) {
-        
+        int idUser = 0;
+        if (userSelected) {
+            idUser = tableUsers.getSelectionModel().getSelectedItem().getValue().getId_user();
+        }
+        int id_rol = rolCombo.getSelectionModel().getSelectedIndex() + 1;
+        String usuario = usuarioText.getText();
+        String salt = PasswordUtility.getSalt(30);
+        String contrasena = PasswordUtility.generateSecurePassword(passwordText.getText(), salt);
+        int id_asociado = 0;
+        switch(id_rol) {
+            case 2:
+                id_asociado = doctorGlobal.getId_doctor();
+                break;
+            case 3:
+                id_asociado = secretariaGlobal.getId_secretaria();
+                break;
+        }
+        User user = new User(idUser, id_rol, usuario, contrasena, salt, id_asociado);
+        if (userSelected) {
+            userDataAccessor.updateUser(user);
+            getDialog("Usuario modificado con exito").show();
+        } else {
+            userDataAccessor.insertNewUser(user);
+            getDialog("Usuario ingresado al sistema con exito").show();
+        }
+        clearUser();
+        loadUsersTable();
     }
     
     @FXML
@@ -182,15 +354,33 @@ public class AdminViewController implements Initializable {
             btnUsuarioBuscar.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    try {
-                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/admin/SecretariaSearchView.fxml"));
-                        Parent root1 = (Parent) fxmlLoader.load();
-                        Stage stage = new Stage();
-                        stage.setScene(new Scene(root1));
-                        stage.show();
-                    } catch (IOException ex) {
-                        Logger.getLogger(LogginViewController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    SecretariaSearchView ssv = new SecretariaSearchView();
+                    ssv.getBtnUserCancelar().setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            Stage stage1 = (Stage) ssv.getBtnUserCancelar().getScene().getWindow();
+                            stage1.close();
+                        }
+                    });
+                    ssv.getBtnUserGuardar().setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            int idSec = ssv.getjFXTreeTableView().getSelectionModel().getSelectedItem().getValue().getId_secretaria();
+                            secretariaGlobal = secretariaDataAccessor.getSecretaria(idSec);
+                            nombreUsuarioText.setText(secretariaGlobal.getNombre());
+                            Stage stage1 = (Stage) ssv.getBtnUserCancelar().getScene().getWindow();
+                            stage1.close();
+                        }
+                    });
+                    
+                    Scene secondScene = new Scene(ssv, 600, 400);
+
+                    Stage newWindow = new Stage();
+                    newWindow.setTitle("Buscar Secretaria");
+                    newWindow.setScene(secondScene);
+
+                    newWindow.centerOnScreen();
+                    newWindow.show();
                 }
             });
         } else {
@@ -198,15 +388,33 @@ public class AdminViewController implements Initializable {
             btnUsuarioBuscar.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    try {
-                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/admin/DoctorSearchView.fxml"));
-                        Parent root1 = (Parent) fxmlLoader.load();
-                        Stage stage = new Stage();
-                        stage.setScene(new Scene(root1));
-                        stage.show();
-                    } catch (IOException ex) {
-                        Logger.getLogger(LogginViewController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    DoctorSearchView dsv = new DoctorSearchView();
+                    dsv.getBtnUserCancelar().setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            Stage stage1 = (Stage) dsv.getBtnUserCancelar().getScene().getWindow();
+                            stage1.close();
+                        }
+                    });
+                    dsv.getBtnUserGuardar().setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent e) {
+                            int idDoc = dsv.getjFXTreeTableView().getSelectionModel().getSelectedItem().getValue().getId_doctor();
+                            doctorGlobal = doctorDataAccessor.getDoctor(idDoc);
+                            nombreUsuarioText.setText(doctorGlobal.getNombre());
+                            Stage stage1 = (Stage) dsv.getBtnUserCancelar().getScene().getWindow();
+                            stage1.close();
+                        }
+                    });
+                    
+                    Scene secondScene = new Scene(dsv, 600, 400);
+
+                    Stage newWindow = new Stage();
+                    newWindow.setTitle("Buscar Doctor");
+                    newWindow.setScene(secondScene);
+
+                    newWindow.centerOnScreen();
+                    newWindow.show();
                 }
             });
         }
@@ -220,11 +428,36 @@ public class AdminViewController implements Initializable {
         correoDocText.setText("");
         especialidadCombo.getSelectionModel().select(-1);
         doctorSelected = false;
+        docTable.getSelectionModel().select(null);
+    }
+    
+    private void clearSecretaria() {
+        nombreSecText.setText("");
+        cedulaSecText.setText("");
+        dirSecText.setText("");
+        telfSecText.setText("");
+        correoSecText.setText("");
+        secretariaSelected = false;
+        secTable.getSelectionModel().select(null);
+    }
+    
+    private void clearUser() {
+        nombreUsuarioText.setText("");
+        usuarioText.setText("");
+        passwordText.setText("");
+        userSelected = false;
+        tableUsers.getSelectionModel().select(null);
+    }
+    
+    private void clearEsp() {
+        especialidadText.setText("");
+        especialidadSelected = false;
+        tableEspecialidad.getSelectionModel().select(null);
     }
     
     private void loadComboEsp() {
         List<String> especialidades = new ArrayList<>();
-        especialidades = doctorDataAccessor.getEspecialidadList();
+        especialidades = doctorDataAccessor.getEspecialidadStringList();
         especialidadCombo.setItems(FXCollections.observableArrayList(especialidades));
     }
     
@@ -263,12 +496,7 @@ public class AdminViewController implements Initializable {
         
         
         ObservableList<User> users = FXCollections.observableArrayList();
-        List<User> usuarios = new ArrayList<>();
-        try {
-            usuarios = userDataAccessor.getUsersList();
-        } catch (SQLException ex) {
-            Logger.getLogger(AdminViewController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        List<User> usuarios = userDataAccessor.getUsersList();
         
         for (User usuario : usuarios) {
             users.add(usuario);
@@ -382,6 +610,36 @@ public class AdminViewController implements Initializable {
         secTable.setShowRoot(false);
     }
     
+    private void loadEspecialidadTable() {
+        JFXTreeTableColumn<Especialidad, Number> idEspCol = new JFXTreeTableColumn<Especialidad, Number>("ID Especialidad");
+        idEspCol.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Especialidad, Number>, ObservableValue<Number>>() {
+            @Override
+            public ObservableValue<Number> call(TreeTableColumn.CellDataFeatures<Especialidad, Number> param) {
+                return param.getValue().getValue().id_especialidadProperty();
+            }
+        });
+        
+        JFXTreeTableColumn<Especialidad, String> nombreCol = new JFXTreeTableColumn<Especialidad, String>("Nombre");
+        nombreCol.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Especialidad, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Especialidad, String> param) {
+                return param.getValue().getValue().getNombreProperty();
+            }
+        });
+        
+        ObservableList<Especialidad> especialidad = FXCollections.observableArrayList();
+        List<Especialidad> especialidades = doctorDataAccessor.getEspecialidadList();
+        
+        for (Especialidad esp : especialidades) {
+            especialidad.add(esp);
+        }
+        
+        final TreeItem<Especialidad> root = new RecursiveTreeItem<Especialidad>(especialidad, RecursiveTreeObject::getChildren);
+        tableEspecialidad.getColumns().setAll(idEspCol, nombreCol);
+        tableEspecialidad.setRoot(root);
+        tableEspecialidad.setShowRoot(false);
+    }
+    
     private JFXDialog getDialog(String body) {
         JFXDialogLayout layout = new JFXDialogLayout();
         JFXDialog dialog = new JFXDialog(stackPane, layout, JFXDialog.DialogTransition.CENTER);
@@ -419,10 +677,13 @@ public class AdminViewController implements Initializable {
                         doctorDataAccessor.deleteDoctor(idP);
                         break;
                     case 2:
-                        //secretaria
+                        secretariaDataAccessor.deleteSec(idP);
+                        break;
+                    case 3:
+                        userDataAccessor.deleteUser(idP);
                         break;
                     default:
-                        
+                        doctorDataAccessor.deleteEspecialidad(idP);
                 }
                 
             }
