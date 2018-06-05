@@ -88,7 +88,7 @@ public class CalendarApp extends Application {
                 btn.setTranslateX(575);
                 btn.setOnAction(new EventHandler<ActionEvent>() {
                     @Override public void handle(ActionEvent e) {
-                        AppointmentView ap1 = new AppointmentView();
+                        /*AppointmentView ap1 = new AppointmentView();
                         ap1.getBtn1().setOnAction(new EventHandler<ActionEvent>() {
                             @Override public void handle(ActionEvent e) {
                                 AppointmentView ap1 = new AppointmentView();
@@ -112,7 +112,7 @@ public class CalendarApp extends Application {
                         newWindow.setScene(secondScene);
 
                         newWindow.centerOnScreen();
-                        newWindow.show();
+                        newWindow.show();*/
                     }
                 });
                 pane.setCenter(calendarView);

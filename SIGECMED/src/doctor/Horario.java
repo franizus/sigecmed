@@ -124,7 +124,8 @@ public class Horario {
         long diff = fechaFin.getTime() - fechaInicio.getTime();
         long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
         int countDays = StringUtils.countMatches(intervaloDias, "1");
-        int semanas = (int) Math.round(days / 7);
+        double temp = days / 7.0;
+        int semanas = (int) Math.ceil(temp);
         return semanas * countDays;
     }
     

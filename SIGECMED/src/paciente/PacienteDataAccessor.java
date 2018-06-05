@@ -80,13 +80,14 @@ public class PacienteDataAccessor {
     
     public boolean insertNewPac(Paciente pac) {
         try {
-            String query = "INSERT INTO paciente (NOMBRE_SEC, CEDULA_SEC, DIRECCION_SEC, TELEFONO_SEC, CORREO_SEC) VALUES (?, ?, ?, ?, ?)";
+            String query = "INSERT INTO paciente (NOMBRE_SEC, CEDULA_SEC, DIRECCION_SEC, TELEFONO_SEC, CORREO_SEC, TRATAMIENTO) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setString(1, pac.getNombre());
             ps.setString(2, pac.getCedula());
             ps.setString(3, pac.getDireccion());
             ps.setString(4, pac.getTelefono());
             ps.setString(5, pac.getCorreo());
+            ps.setBoolean(6, false);
 
             ps.execute();
             ps.close();

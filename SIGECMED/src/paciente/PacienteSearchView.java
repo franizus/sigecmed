@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package secretaria;
+package paciente;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTreeTableColumn;
@@ -29,17 +29,17 @@ import main.Globals;
  *
  * @author frani
  */
-public class SecretariaSearchView extends AnchorPane {
+public class PacienteSearchView extends AnchorPane {
 
-    private SecretariaDataAccessor secretariaDataAccessor;
-    protected final JFXTreeTableView<Secretaria> jFXTreeTableView;
-    protected final JFXButton btnUserGuardar;
-    protected final JFXButton btnUserCancelar;
+    private PacienteDataAccessor pacienteDataAccessor;
+    protected JFXTreeTableView<Paciente> jFXTreeTableView;
+    protected JFXButton btnUserGuardar;
+    protected JFXButton btnUserCancelar;
 
-    public SecretariaSearchView() {
+    public PacienteSearchView() {
         
         try {
-            secretariaDataAccessor = new SecretariaDataAccessor(Globals.driverClassName, Globals.dbURL, Globals.dbUSER, Globals.dbPassword);
+            pacienteDataAccessor = new PacienteDataAccessor(Globals.driverClassName, Globals.dbURL, Globals.dbUSER, Globals.dbPassword);
         } catch (SQLException ex) {
             Logger.getLogger(LogginViewController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -77,10 +77,10 @@ public class SecretariaSearchView extends AnchorPane {
         getChildren().add(btnUserGuardar);
         getChildren().add(btnUserCancelar);
         
-        loadSecretariaTable();
+        loadPacienteTable();
     }
     
-    public JFXTreeTableView<Secretaria> getjFXTreeTableView() {
+    public JFXTreeTableView<Paciente> getjFXTreeTableView() {
         return jFXTreeTableView;
     }
 
@@ -92,49 +92,49 @@ public class SecretariaSearchView extends AnchorPane {
         return btnUserCancelar;
     }
     
-    private void loadSecretariaTable() {
-        JFXTreeTableColumn<Secretaria, Number> idSecCol = new JFXTreeTableColumn<Secretaria, Number>("ID Secretaria");
-        idSecCol.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Secretaria, Number>, ObservableValue<Number>>() {
+    private void loadPacienteTable() {
+        JFXTreeTableColumn<Paciente, Number> idPacCol = new JFXTreeTableColumn<Paciente, Number>("ID Paciente");
+        idPacCol.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Paciente, Number>, ObservableValue<Number>>() {
             @Override
-            public ObservableValue<Number> call(TreeTableColumn.CellDataFeatures<Secretaria, Number> param) {
-                return param.getValue().getValue().id_secretariaProperty();
+            public ObservableValue<Number> call(TreeTableColumn.CellDataFeatures<Paciente, Number> param) {
+                return param.getValue().getValue().id_pacienteProperty();
             }
         });
         
-        JFXTreeTableColumn<Secretaria, String> nombreCol = new JFXTreeTableColumn<Secretaria, String>("Nombre");
-        nombreCol.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Secretaria, String>, ObservableValue<String>>() {
+        JFXTreeTableColumn<Paciente, String> nombreCol = new JFXTreeTableColumn<Paciente, String>("Nombre");
+        nombreCol.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Paciente, String>, ObservableValue<String>>() {
             @Override
-            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Secretaria, String> param) {
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Paciente, String> param) {
                 return param.getValue().getValue().getNombreProperty();
             }
         });
         
-        JFXTreeTableColumn<Secretaria, String> cedulaCol = new JFXTreeTableColumn<Secretaria, String>("Cedula");
-        cedulaCol.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Secretaria, String>, ObservableValue<String>>() {
+        JFXTreeTableColumn<Paciente, String> cedulaCol = new JFXTreeTableColumn<Paciente, String>("Cedula");
+        cedulaCol.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Paciente, String>, ObservableValue<String>>() {
             @Override
-            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Secretaria, String> param) {
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Paciente, String> param) {
                 return param.getValue().getValue().getCedulaProperty();
             }
         });
         
-        JFXTreeTableColumn<Secretaria, String> correoCol = new JFXTreeTableColumn<Secretaria, String>("Correo");
-        correoCol.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Secretaria, String>, ObservableValue<String>>() {
+        JFXTreeTableColumn<Paciente, String> correoCol = new JFXTreeTableColumn<Paciente, String>("Correo");
+        correoCol.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Paciente, String>, ObservableValue<String>>() {
             @Override
-            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Secretaria, String> param) {
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Paciente, String> param) {
                 return param.getValue().getValue().getCorreoProperty();
             }
         });
         
         
-        ObservableList<Secretaria> secretary = FXCollections.observableArrayList();
-        List<Secretaria> secretarias = secretariaDataAccessor.getSecretariaList();
+        ObservableList<Paciente> pacient = FXCollections.observableArrayList();
+        List<Paciente> pacientes = pacienteDataAccessor.getPacienteList();
         
-        for (Secretaria secretaria : secretarias) {
-            secretary.add(secretaria);
+        for (Paciente paciente : pacientes) {
+            pacient.add(paciente);
         }
         
-        final TreeItem<Secretaria> root = new RecursiveTreeItem<Secretaria>(secretary, RecursiveTreeObject::getChildren);
-        jFXTreeTableView.getColumns().setAll(idSecCol, nombreCol, cedulaCol, correoCol);
+        final TreeItem<Paciente> root = new RecursiveTreeItem<Paciente>(pacient, RecursiveTreeObject::getChildren);
+        jFXTreeTableView.getColumns().setAll(idPacCol, nombreCol, cedulaCol, correoCol);
         jFXTreeTableView.setRoot(root);
         jFXTreeTableView.setShowRoot(false);
     }

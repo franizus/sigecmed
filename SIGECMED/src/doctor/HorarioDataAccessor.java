@@ -57,6 +57,31 @@ public class HorarioDataAccessor {
         }
     }
     
+    public Horario getHorarioByDoctor(int idDoc) {
+        try {
+            String query = "select * from horario where ID_DOCTOR = ?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, idDoc);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                int id_horario = rs.getInt("ID_HORIARIO");
+                int id_doctor = rs.getInt("ID_DOCTOR");
+                String intervalo = rs.getString("INTERVALO_DIAS");
+                Time horaInicio = rs.getTime("HORA_INICIO");
+                Time horaFin = rs.getTime("HORA_FIN");
+                Date fechaInicio = rs.getDate("FECHA_INICIO");
+                Date fechaFin = rs.getDate("FECHA_FIN");
+                Horario horario = new Horario(id_horario, id_doctor, intervalo, horaInicio, horaFin, fechaInicio, fechaFin);
+                return horario;
+            } else {
+                return new Horario();
+            }
+        } catch (SQLException ex) {
+            return null;
+        }
+    }
+    
     public boolean insertNewHorario(Horario horario) {
         try {
             String query = "INSERT INTO horario (ID_DOCTOR, INTERVALO_DIAS, HORA_INICIO, HORA_FIN, FECHA_INICIO, FECHA_FIN) VALUES (?, ?, ?, ?, ?, ?)";

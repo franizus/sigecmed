@@ -16,6 +16,7 @@ import doctor.Doctor;
 import doctor.DoctorDataAccessor;
 import doctor.Horario;
 import doctor.HorarioDataAccessor;
+import java.io.IOException;
 import static java.lang.Thread.sleep;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -26,12 +27,18 @@ import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import login.LogginViewController;
 import main.Globals;
+import paciente.Cita;
+import paciente.CitaDataAccessor;
+import paciente.Paciente;
+import paciente.PacienteDataAccessor;
 
 /**
  *
@@ -43,11 +50,15 @@ public class CitasView extends BorderPane{
     private Calendar citas;
     private DoctorDataAccessor doctorDataAccessor;
     private HorarioDataAccessor horarioDataAccessor;
+    private CitaDataAccessor citaDataAccessor;
+    private PacienteDataAccessor pacienteDataAccessor;
     
     public CitasView() {
         try {
             doctorDataAccessor = new DoctorDataAccessor(Globals.driverClassName, Globals.dbURL, Globals.dbUSER, Globals.dbPassword);
             horarioDataAccessor = new HorarioDataAccessor(Globals.driverClassName, Globals.dbURL, Globals.dbUSER, Globals.dbPassword);
+            citaDataAccessor = new CitaDataAccessor(Globals.driverClassName, Globals.dbURL, Globals.dbUSER, Globals.dbPassword);
+            pacienteDataAccessor = new PacienteDataAccessor(Globals.driverClassName, Globals.dbURL, Globals.dbUSER, Globals.dbPassword);
         } catch (SQLException ex) {
             Logger.getLogger(LogginViewController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -60,7 +71,7 @@ public class CitasView extends BorderPane{
         
         citas = new Calendar("Citas");
         citas.setStyle(Calendar.Style.STYLE2);
-        
+        loadCitas();
         
         DayPage calendarView = new DayPage();
         calendarView.setRequestedTime(LocalTime.now());
@@ -100,30 +111,16 @@ public class CitasView extends BorderPane{
         btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                AppointmentView ap1 = new AppointmentView();
-                LocalDate date = calendarView.getYearMonthView().getDate();
-                ap1.getJFXDatePicker().setValue(date);
-                //ap1.getjFXTextField().setEditable(false);
-                ap1.getBtn1().setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent e) {
-                        Entry entry = new Entry(ap1.getjFXTextField().getText());
-                        Interval interval = new Interval(ap1.getJFXDatePicker().getValue(), ap1.getjFXTimePicker0().getValue(), ap1.getJFXDatePicker().getValue(), ap1.getjFXTimePicker().getValue());
-                        entry.setInterval(interval);
-                        horario.addEntry(entry);
-                        Stage stage1 = (Stage) ap1.getBtn1().getScene().getWindow();
-                        stage1.close();
-                    }
-                });
-
-                Scene secondScene = new Scene(ap1, 600, 400);
-
-                Stage newWindow = new Stage();
-                newWindow.setTitle("Nueva Cita");
-                newWindow.setScene(secondScene);
-
-                newWindow.centerOnScreen();
-                newWindow.show();
+                try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/secretaria/CitaView.fxml"));
+                Parent root1 = (Parent) fxmlLoader.load();
+                Stage stage = new Stage();
+                stage.setTitle("Nueva Cita");
+                stage.setScene(new Scene(root1));
+                stage.show();
+            } catch (IOException ex) {
+                Logger.getLogger(LogginViewController.class.getName()).log(Level.SEVERE, null, ex);
+            }
             }
         });
         
@@ -148,11 +145,11 @@ public class CitasView extends BorderPane{
         this.setBottom(grid);
     }
     
-    public void loadHorarioDoctor() {
+    private void loadHorarioDoctor() {
         List<Horario> horarios = horarioDataAccessor.getHorarioList();
         for (Horario horario : horarios) {
             Doctor doctor = doctorDataAccessor.getDoctor(horario.getIdDoctor());
-            Entry entry = new Entry(doctor.getNombre());
+            Entry entry = new Entry("Doctor: " + doctor.getNombre());
             Interval interval = new Interval(horario.getFechaInicio().toLocalDate(), horario.getHoraInicio().toLocalTime(), horario.getFechaInicio().toLocalDate(), horario.getHoraFin().toLocalTime());
             entry.setInterval(interval);
             int days = horario.getNumberOfDays();
@@ -160,6 +157,18 @@ public class CitasView extends BorderPane{
             String rule = "RRULE:FREQ=MONTHLY;BYDAY=" + aux + ";COUNT=" + days + ";";
             entry.setRecurrenceRule(rule);
             this.horario.addEntry(entry);
+        }
+    }
+    
+    private void loadCitas() {
+        List<Cita> citas = citaDataAccessor.getCitasList();
+        for (Cita cita : citas) {
+            Doctor doctor = doctorDataAccessor.getDoctor(cita.getIdDoctor());
+            Paciente paciente = pacienteDataAccessor.getPaciente(cita.getIdPaciente());
+            Entry entry = new Entry("Paciente: " + paciente.getNombre() + " - Doctor: " + doctor.getNombre());
+            Interval interval = new Interval(cita.getFecha().toLocalDate(), cita.getHoraInicio().toLocalTime(), cita.getFecha().toLocalDate(), cita.getHoraFin().toLocalTime());
+            entry.setInterval(interval);
+            this.citas.addEntry(entry);
         }
     }
     

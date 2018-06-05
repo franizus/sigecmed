@@ -51,14 +51,14 @@ public class DoctorSearchView extends AnchorPane {
         jFXTreeTableView.setPrefWidth(546);
         jFXTreeTableView.setPrefHeight(316);
 
-        btnUserGuardar.setLayoutX(450.0);
+        btnUserGuardar.setLayoutX(470.0);
         btnUserGuardar.setLayoutY(355.0);
         btnUserGuardar.setPrefWidth(100);
         btnUserGuardar.setPrefHeight(30);
-        btnUserGuardar.setStyle("-fx-background-color: rgb(77,102,204);-fx-text-fill: WHITE;");
+        btnUserGuardar.setStyle("-fx-background-color: #689F38;-fx-text-fill: WHITE;");
         btnUserGuardar.setFont(new Font("System Bold", 15.0));
 
-        btnUserCancelar.setLayoutX(322.0);
+        btnUserCancelar.setLayoutX(342.0);
         btnUserCancelar.setLayoutY(355.0);
         btnUserCancelar.setPrefWidth(100);
         btnUserCancelar.setPrefHeight(30);
