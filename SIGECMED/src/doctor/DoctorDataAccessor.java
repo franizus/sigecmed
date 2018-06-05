@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class DoctorDataAccessor {
     
-        private Connection connection;
+    private Connection connection;
     
     public DoctorDataAccessor(String driverClassName, String dbURL, String user, String password) throws SQLException, ClassNotFoundException {
         Class.forName(driverClassName);
@@ -93,6 +93,24 @@ public class DoctorDataAccessor {
                 String correo = rs.getString("CORREO_SEC");
                 Doctor doctor = new Doctor(id_doctor, id_especialidad, nombre, cedula, direccion, telefono, correo);
                 doctorList.add(doctor);
+            }
+            return doctorList;
+        } catch (SQLException ex) {
+            return null;
+        }
+    }
+    
+    public List<String> getDoctorsStringList() {
+        try (
+            Statement stmnt = connection.createStatement();
+            ResultSet rs = stmnt.executeQuery("select * from doctor");) {
+            List<String> doctorList = new ArrayList<>();
+            while (rs.next()) {
+                int id_especialidad = rs.getInt("ID_ESPECIALIDAD");
+                String especialidad = getEspecialidad(id_especialidad).getNombre();
+                String nombre = rs.getString("NOMBRE_SEC");
+                String salida = nombre + " - " + especialidad;
+                doctorList.add(salida);
             }
             return doctorList;
         } catch (SQLException ex) {

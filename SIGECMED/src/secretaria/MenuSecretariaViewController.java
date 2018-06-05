@@ -43,7 +43,7 @@ public class MenuSecretariaViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         imagePaciente.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/secretaria/paciente/PacienteView.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/secretaria/PacienteView.fxml"));
                 Parent root1 = (Parent) fxmlLoader.load();
                 Stage stage = new Stage();
                 stage.setScene(new Scene(root1));

@@ -12,9 +12,17 @@ import com.calendarfx.model.Interval;
 import com.calendarfx.view.DayViewBase;
 import com.calendarfx.view.page.DayPage;
 import com.jfoenix.controls.JFXButton;
+import doctor.Doctor;
+import doctor.DoctorDataAccessor;
+import doctor.Horario;
+import doctor.HorarioDataAccessor;
 import static java.lang.Thread.sleep;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -22,6 +30,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import login.LogginViewController;
+import main.Globals;
 
 /**
  *
@@ -29,26 +39,36 @@ import javafx.stage.Stage;
  */
 public class CitasView extends BorderPane{
 
+    private Calendar horario;
+    private Calendar citas;
+    private DoctorDataAccessor doctorDataAccessor;
+    private HorarioDataAccessor horarioDataAccessor;
+    
     public CitasView() {
-        Calendar cal1 = new Calendar("Appointments");
+        try {
+            doctorDataAccessor = new DoctorDataAccessor(Globals.driverClassName, Globals.dbURL, Globals.dbUSER, Globals.dbPassword);
+            horarioDataAccessor = new HorarioDataAccessor(Globals.driverClassName, Globals.dbURL, Globals.dbUSER, Globals.dbPassword);
+        } catch (SQLException ex) {
+            Logger.getLogger(LogginViewController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(LogginViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        horario = new Calendar("Horario Doctores");
+        horario.setStyle(Calendar.Style.STYLE1);
+        loadHorarioDoctor();
+        
+        citas = new Calendar("Citas");
+        citas.setStyle(Calendar.Style.STYLE2);
+        
         
         DayPage calendarView = new DayPage();
-        
         calendarView.setRequestedTime(LocalTime.now());
         calendarView.getDetailedDayView().setEarlyLateHoursStrategy(DayViewBase.EarlyLateHoursStrategy.HIDE);
         calendarView.getDetailedDayView().setVisibleHours(12);
-                
-        Entry entry = new Entry("Dentista 1");
-        Interval interval = new Interval(LocalDate.now(), LocalTime.of(9, 15), LocalDate.now(), LocalTime.of(11, 15));
-        entry.setInterval(interval);
-        entry.setRecurrenceRule("RRULE:FREQ=MONTHLY;BYDAY=MO,TU,WE,TH,FR;COUNT=20;");
-                
-        cal1.setStyle(Calendar.Style.STYLE2);
-                
-        Calendar birthdays = new Calendar("Doctors");
-        birthdays.addEntry(entry);
+
         CalendarSource myCalendarSource = new CalendarSource("My Calendars");
-        myCalendarSource.getCalendars().addAll(birthdays, cal1);
+        myCalendarSource.getCalendars().addAll(horario, citas);
         calendarView.getCalendarSources().addAll(myCalendarSource);
 
         Thread updateTimeThread = new Thread("Calendar: Update Time Thread") {
@@ -75,8 +95,8 @@ public class CitasView extends BorderPane{
 
         JFXButton btn = new JFXButton();
         btn.textProperty().set("Nueva Cita");
-        btn.setStyle("-fx-padding: 0.7em 0.57em;-fx-font-size: 16px;-jfx-button-type: RAISED;-fx-background-color: rgb(77,102,204);-fx-pref-width: 150;-fx-pref-height: 30;-fx-text-fill: WHITE;");
-        btn.setTranslateX(250);
+        btn.setStyle("-fx-font-size: 13pt;-fx-font-weight: bold;-jfx-button-type: RAISED;-fx-background-color: #689F38;-fx-pref-width: 150;-fx-pref-height: 30;-fx-text-fill: WHITE;");
+        btn.setTranslateX(830);
         btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -90,7 +110,7 @@ public class CitasView extends BorderPane{
                         Entry entry = new Entry(ap1.getjFXTextField().getText());
                         Interval interval = new Interval(ap1.getJFXDatePicker().getValue(), ap1.getjFXTimePicker0().getValue(), ap1.getJFXDatePicker().getValue(), ap1.getjFXTimePicker().getValue());
                         entry.setInterval(interval);
-                        cal1.addEntry(entry);
+                        horario.addEntry(entry);
                         Stage stage1 = (Stage) ap1.getBtn1().getScene().getWindow();
                         stage1.close();
                     }
@@ -109,8 +129,8 @@ public class CitasView extends BorderPane{
         
         JFXButton btn1 = new JFXButton();
         btn1.textProperty().set("Reagendar Cita");
-        btn1.setStyle("-fx-padding: 0.7em 0.57em;-fx-font-size: 16px;-jfx-button-type: RAISED;-fx-background-color: #669966;-fx-pref-width: 150;-fx-pref-height: 30;-fx-text-fill: WHITE;");
-        btn1.setTranslateX(500);
+        btn1.setStyle("-fx-font-size: 13pt;-fx-font-weight: bold;-fx-pref-width: 150;-fx-pref-height: 30;");
+        btn1.setTranslateX(660);
         btn1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -120,12 +140,27 @@ public class CitasView extends BorderPane{
         
         Pane grid = new Pane();
         grid.setStyle("-fx-background-color:WHITE;");
-        grid.setPrefSize(900, 60);
+        grid.setPrefSize(1000, 60);
         grid.getChildren().add(btn);
         grid.getChildren().add(btn1);
         
         this.setCenter(calendarView);
         this.setBottom(grid);
+    }
+    
+    public void loadHorarioDoctor() {
+        List<Horario> horarios = horarioDataAccessor.getHorarioList();
+        for (Horario horario : horarios) {
+            Doctor doctor = doctorDataAccessor.getDoctor(horario.getIdDoctor());
+            Entry entry = new Entry(doctor.getNombre());
+            Interval interval = new Interval(horario.getFechaInicio().toLocalDate(), horario.getHoraInicio().toLocalTime(), horario.getFechaInicio().toLocalDate(), horario.getHoraFin().toLocalTime());
+            entry.setInterval(interval);
+            int days = horario.getNumberOfDays();
+            String aux = horario.getStringToCalendar();
+            String rule = "RRULE:FREQ=MONTHLY;BYDAY=" + aux + ";COUNT=" + days + ";";
+            entry.setRecurrenceRule(rule);
+            this.horario.addEntry(entry);
+        }
     }
     
 }

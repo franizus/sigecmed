@@ -46,6 +46,8 @@ import login.PasswordUtility;
 import login.User;
 import login.UserDataAccessor;
 import main.Globals;
+import main.Validation;
+import org.apache.commons.lang3.StringUtils;
 import secretaria.Secretaria;
 import secretaria.SecretariaDataAccessor;
 import secretaria.SecretariaSearchView;
@@ -171,7 +173,7 @@ public class AdminViewController implements Initializable {
         dirSecText.setText(sec.getDireccion());
         telfSecText.setText(sec.getTelefono());
         correoSecText.setText(sec.getCorreo());
-        doctorSelected = true;
+        secretariaSelected = true;
     }
 
     @FXML
@@ -198,30 +200,39 @@ public class AdminViewController implements Initializable {
             getDialog("Debe seleccionar un Doctor para poder eliminarlo.").show();
         }
         clearDoctor();
+        loadDoctorsTable();
     }
 
     @FXML
     void guardarDoctor(ActionEvent event) {
-        int idDoc = 0;
-        if (doctorSelected) {
-            idDoc = docTable.getSelectionModel().getSelectedItem().getValue().getId_doctor();
-        }
-        int idEsp = especialidadCombo.getSelectionModel().getSelectedIndex() + 1;
-        String nombre = nombreDocText.getText();
-        String cedula = cedulaDocText.getText();
-        String direccion = dirDocText.getText();
-        String telefono = telfDocText.getText();
-        String correo = correoDocText.getText();
-        Doctor doctor = new Doctor(idDoc, idEsp, nombre, cedula, direccion, telefono, correo);
-        if (doctorSelected) {
-            doctorDataAccessor.updateDoctor(doctor);
-            getDialog("Doctor modificado con exito").show();
+        if (!validateDoctor()) {
+            getDialog("Campos obligatorios* no pueden estar vacios").show();
         } else {
-            doctorDataAccessor.insertNewDoctor(doctor);
-            getDialog("Doctor ingresado al sistema con exito").show();
+            if (Validation.validarCedula(cedulaDocText.getText())) {
+                int idDoc = 0;
+                if (doctorSelected) {
+                    idDoc = docTable.getSelectionModel().getSelectedItem().getValue().getId_doctor();
+                }
+                int idEsp = especialidadCombo.getSelectionModel().getSelectedIndex() + 1;
+                String nombre = nombreDocText.getText();
+                String cedula = cedulaDocText.getText();
+                String direccion = dirDocText.getText();
+                String telefono = telfDocText.getText();
+                String correo = correoDocText.getText();
+                Doctor doctor = new Doctor(idDoc, idEsp, nombre, cedula, direccion, telefono, correo);
+                if (doctorSelected) {
+                    doctorDataAccessor.updateDoctor(doctor);
+                    getDialog("Doctor modificado con exito").show();
+                } else {
+                    doctorDataAccessor.insertNewDoctor(doctor);
+                    getDialog("Doctor ingresado al sistema con exito").show();
+                }
+                clearDoctor();
+                loadDoctorsTable();
+            } else {
+                getDialog("Cedula ingresada es incorrecta").show();
+            }
         }
-        clearDoctor();
-        loadDoctorsTable();
     }
     
     @FXML
@@ -248,6 +259,8 @@ public class AdminViewController implements Initializable {
             getDialog("Debe seleccionar una Especialidad para poder eliminarla.").show();
         }
         clearEsp();
+        loadEspecialidadTable();
+        loadComboEsp();
     }
     
     @FXML
@@ -259,6 +272,7 @@ public class AdminViewController implements Initializable {
             getDialog("Debe seleccionar un Usuario para poder eliminarlo.").show();
         }
         clearUser();
+        loadUsersTable();
     }
 
     @FXML
@@ -270,79 +284,97 @@ public class AdminViewController implements Initializable {
             getDialog("Debe seleccionar una Secretaria para poder eliminarla.").show();
         }
         clearSecretaria();
-    }
-    
-    @FXML
-    void guardarEsp(ActionEvent event) {
-        int idEsp = 0;
-        if (especialidadSelected) {
-            idEsp = tableEspecialidad.getSelectionModel().getSelectedItem().getValue().getId_especialidad();
-        }
-        String nombre = especialidadText.getText();
-        Especialidad esp = new Especialidad(idEsp, nombre);
-        if (especialidadSelected) {
-            doctorDataAccessor.updateEsp(esp);
-            getDialog("Especialidad modificada con exito").show();
-        } else {
-            doctorDataAccessor.insertNewEsp(esp);
-            getDialog("Especialidad ingresada al sistema con exito").show();
-        }
-        clearEsp();
-        loadEspecialidadTable();
-    }
-
-    @FXML
-    void guardarSecretaria(ActionEvent event) {
-        int idSec = 0;
-        if (secretariaSelected) {
-            idSec = secTable.getSelectionModel().getSelectedItem().getValue().getId_secretaria();
-        }
-        String nombre = nombreSecText.getText();
-        String cedula = cedulaSecText.getText();
-        String direccion = dirSecText.getText();
-        String telefono = telfSecText.getText();
-        String correo = correoSecText.getText();
-        Secretaria sec = new Secretaria(idSec, nombre, cedula, direccion, telefono, correo);
-        if (secretariaSelected) {
-            secretariaDataAccessor.updateSec(sec);
-            getDialog("Secretaria modificada con exito").show();
-        } else {
-            secretariaDataAccessor.insertNewSec(sec);
-            getDialog("Secretaria ingresada al sistema con exito").show();
-        }
-        clearSecretaria();
         loadSecretariaTable();
     }
     
     @FXML
-    private void guardarUsuario(ActionEvent event) {
-        int idUser = 0;
-        if (userSelected) {
-            idUser = tableUsers.getSelectionModel().getSelectedItem().getValue().getId_user();
-        }
-        int id_rol = rolCombo.getSelectionModel().getSelectedIndex() + 1;
-        String usuario = usuarioText.getText();
-        String salt = PasswordUtility.getSalt(30);
-        String contrasena = PasswordUtility.generateSecurePassword(passwordText.getText(), salt);
-        int id_asociado = 0;
-        switch(id_rol) {
-            case 2:
-                id_asociado = doctorGlobal.getId_doctor();
-                break;
-            case 3:
-                id_asociado = secretariaGlobal.getId_secretaria();
-                break;
-        }
-        User user = new User(idUser, id_rol, usuario, contrasena, salt, id_asociado);
-        if (userSelected) {
-            userDataAccessor.updateUser(user);
-            getDialog("Usuario modificado con exito").show();
+    void guardarEsp(ActionEvent event) {
+        if (!validateEsp()) {
+            getDialog("Campos obligatorios* no pueden estar vacios").show();
         } else {
-            userDataAccessor.insertNewUser(user);
-            getDialog("Usuario ingresado al sistema con exito").show();
+            int idEsp = 0;
+            if (especialidadSelected) {
+                idEsp = tableEspecialidad.getSelectionModel().getSelectedItem().getValue().getId_especialidad();
+            }
+            String nombre = especialidadText.getText();
+            Especialidad esp = new Especialidad(idEsp, nombre);
+            if (especialidadSelected) {
+                doctorDataAccessor.updateEsp(esp);
+                getDialog("Especialidad modificada con exito").show();
+            } else {
+                doctorDataAccessor.insertNewEsp(esp);
+                getDialog("Especialidad ingresada al sistema con exito").show();
+            }
+            clearEsp();
+            loadEspecialidadTable();
+            loadComboEsp();
         }
-        clearUser();
-        loadUsersTable();
+    }
+
+    @FXML
+    void guardarSecretaria(ActionEvent event) {
+        if (!validateSecretaria()) {
+            getDialog("Campos obligatorios* no pueden estar vacios").show();
+        } else {
+            if (Validation.validarCedula(cedulaSecText.getText())) {
+                int idSec = 0;
+                if (secretariaSelected) {
+                    idSec = secTable.getSelectionModel().getSelectedItem().getValue().getId_secretaria();
+                }
+                String nombre = nombreSecText.getText();
+                String cedula = cedulaSecText.getText();
+                String direccion = dirSecText.getText();
+                String telefono = telfSecText.getText();
+                String correo = correoSecText.getText();
+                Secretaria sec = new Secretaria(idSec, nombre, cedula, direccion, telefono, correo);
+                if (secretariaSelected) {
+                    secretariaDataAccessor.updateSec(sec);
+                    getDialog("Secretaria modificada con exito").show();
+                } else {
+                    secretariaDataAccessor.insertNewSec(sec);
+                    getDialog("Secretaria ingresada al sistema con exito").show();
+                }
+                clearSecretaria();
+                loadSecretariaTable();
+            } else {
+                getDialog("Cedula ingresada es incorrecta").show();
+            }
+        }
+    }
+    
+    @FXML
+    private void guardarUsuario(ActionEvent event) {
+        if (!validateUser()) {
+            getDialog("Campos obligatorios* no pueden estar vacios").show();
+        } else {
+            int idUser = 0;
+            if (userSelected) {
+                idUser = tableUsers.getSelectionModel().getSelectedItem().getValue().getId_user();
+            }
+            int id_rol = rolCombo.getSelectionModel().getSelectedIndex() + 1;
+            String usuario = usuarioText.getText();
+            String salt = PasswordUtility.getSalt(30);
+            String contrasena = PasswordUtility.generateSecurePassword(passwordText.getText(), salt);
+            int id_asociado = 0;
+            switch(id_rol) {
+                case 2:
+                    id_asociado = doctorGlobal.getId_doctor();
+                    break;
+                case 3:
+                    id_asociado = secretariaGlobal.getId_secretaria();
+                    break;
+            }
+            User user = new User(idUser, id_rol, usuario, contrasena, salt, id_asociado);
+            if (userSelected) {
+                userDataAccessor.updateUser(user);
+                getDialog("Usuario modificado con exito").show();
+            } else {
+                userDataAccessor.insertNewUser(user);
+                getDialog("Usuario ingresado al sistema con exito").show();
+            }
+            clearUser();
+            loadUsersTable();
+        }
     }
     
     @FXML
@@ -506,6 +538,35 @@ public class AdminViewController implements Initializable {
         tableUsers.getColumns().setAll(idRolCol, usuarioCol, idAsociadoCol);
         tableUsers.setRoot(root);
         tableUsers.setShowRoot(false);
+    }
+    
+    private boolean validateDoctor() {
+        boolean aux1 = StringUtils.isEmpty(nombreDocText.getText());
+        boolean aux2 = StringUtils.isEmpty(cedulaDocText.getText());
+        boolean aux3 = StringUtils.isEmpty(correoDocText.getText());
+        boolean aux4 = StringUtils.isEmpty(especialidadCombo.getSelectionModel().getSelectedItem());
+        
+        return !(aux1 && aux2 && aux3 && aux4);
+    }
+    
+    private boolean validateSecretaria() {
+        boolean aux1 = StringUtils.isEmpty(nombreSecText.getText());
+        boolean aux2 = StringUtils.isEmpty(cedulaSecText.getText());
+        boolean aux3 = StringUtils.isEmpty(correoSecText.getText());
+        
+        return !(aux1 && aux2 && aux3);
+    }
+    
+    private boolean validateUser() {
+        boolean aux1 = StringUtils.isEmpty(usuarioText.getText());
+        boolean aux2 = StringUtils.isEmpty(passwordText.getText());
+        boolean aux3 = StringUtils.isEmpty(rolCombo.getSelectionModel().getSelectedItem());
+        
+        return !(aux1 && aux2 && aux3);
+    }
+    
+    private boolean validateEsp() {
+        return !StringUtils.isEmpty(especialidadText.getText());
     }
     
     private void loadDoctorsTable() {
