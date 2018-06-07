@@ -30,6 +30,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -116,6 +117,7 @@ public class CitasView extends BorderPane{
                 Parent root1 = (Parent) fxmlLoader.load();
                 Stage stage = new Stage();
                 stage.setTitle("Nueva Cita");
+                stage.getIcons().add(new Image("/images/report.png"));
                 stage.setScene(new Scene(root1));
                 stage.show();
             } catch (IOException ex) {

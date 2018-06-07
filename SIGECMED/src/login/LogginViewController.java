@@ -23,6 +23,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
@@ -92,6 +93,8 @@ public class LogginViewController implements Initializable {
                             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/admin/AdminView.fxml"));
                             Parent root1 = (Parent) fxmlLoader.load();
                             Stage stage = new Stage();
+                            stage.setTitle("SIGECMED - Administrador");
+                            stage.getIcons().add(new Image("/images/report.png"));
                             stage.setScene(new Scene(root1));
                             stage.show();
                         } catch (IOException ex) {
@@ -110,6 +113,8 @@ public class LogginViewController implements Initializable {
                             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/secretaria/MenuSecretariaView.fxml"));
                             Parent root1 = (Parent) fxmlLoader.load();
                             Stage stage = new Stage();
+                            stage.setTitle("SIGECMED - Secretaria");
+                            stage.getIcons().add(new Image("/images/report.png"));
                             stage.setScene(new Scene(root1));
                             stage.show();
                         } catch (IOException ex) {

@@ -33,6 +33,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -130,6 +131,7 @@ public class CitaViewController implements Initializable {
 
         Stage newWindow = new Stage();
         newWindow.setTitle("Buscar Paciente");
+        newWindow.getIcons().add(new Image("/images/report.png"));
         newWindow.setScene(secondScene);
 
         newWindow.centerOnScreen();
@@ -138,10 +140,8 @@ public class CitaViewController implements Initializable {
 
     @FXML
     void handleCancelar(ActionEvent event) {
-        txtPaciente.setText("");
-        comboDoctor.getSelectionModel().select(-1);
-        timeHoraFin.setValue(LocalTime.now());
-        timeHoraInicio.setValue(LocalTime.now());
+        Stage stage1 = (Stage) btnBuscar.getScene().getWindow();
+        stage1.close();
     }
 
     @FXML

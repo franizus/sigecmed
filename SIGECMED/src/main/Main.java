@@ -10,6 +10,7 @@ import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -22,6 +23,8 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/login/LoginView.fxml"));
         Scene scene = new Scene(root);
+        stage.setTitle("SIGECMED - Inicio");
+        stage.getIcons().add(new Image("/images/report.png"));
         stage.setWidth(902);
         stage.setHeight(452);
         stage.setResizable(false);

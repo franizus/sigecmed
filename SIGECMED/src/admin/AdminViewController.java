@@ -36,6 +36,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
@@ -409,6 +410,7 @@ public class AdminViewController implements Initializable {
 
                     Stage newWindow = new Stage();
                     newWindow.setTitle("Buscar Secretaria");
+                    newWindow.getIcons().add(new Image("/images/report.png"));
                     newWindow.setScene(secondScene);
 
                     newWindow.centerOnScreen();
@@ -443,6 +445,7 @@ public class AdminViewController implements Initializable {
 
                     Stage newWindow = new Stage();
                     newWindow.setTitle("Buscar Doctor");
+                    newWindow.getIcons().add(new Image("/images/report.png"));
                     newWindow.setScene(secondScene);
 
                     newWindow.centerOnScreen();

@@ -15,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -46,6 +47,8 @@ public class MenuSecretariaViewController implements Initializable {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/secretaria/PacienteView.fxml"));
                 Parent root1 = (Parent) fxmlLoader.load();
                 Stage stage = new Stage();
+                stage.setTitle("SIGECMED - Secretaria: Paciente");
+                stage.getIcons().add(new Image("/images/report.png"));
                 stage.setScene(new Scene(root1));
                 stage.show();
             } catch (IOException ex) {
@@ -59,7 +62,8 @@ public class MenuSecretariaViewController implements Initializable {
             Scene secondScene = new Scene(ap1, 1000, 700);
 
             Stage newWindow = new Stage();
-            newWindow.setTitle("Menu Doctor");
+            newWindow.setTitle("SIGECMED - Secretaria: Doctor");
+            newWindow.getIcons().add(new Image("/images/report.png"));
             newWindow.setScene(secondScene);
 
             newWindow.centerOnScreen();
@@ -72,7 +76,8 @@ public class MenuSecretariaViewController implements Initializable {
             Scene secondScene = new Scene(ap1, 1000, 700);
 
             Stage newWindow = new Stage();
-            newWindow.setTitle("Menu Citas");
+            newWindow.setTitle("SIGECMED - Secretaria: Citas");
+            newWindow.getIcons().add(new Image("/images/report.png"));
             newWindow.setScene(secondScene);
 
             newWindow.centerOnScreen();
