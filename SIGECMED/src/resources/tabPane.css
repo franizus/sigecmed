@@ -1,0 +1,23 @@
+* {
+    -fx-primary : rgb(77,102,204);
+    -fx-secondary : #FFFFFF;
+    -fx-third : #4059a9;
+    -fx-primarytext : #000000;
+}
+
+.root{
+    -fx-background-color: -fx-secondary;
+}
+
+/*Main Screen CSS Styling starts here*/
+
+/*TablPane styling*/
+.tab{
+    -fx-background-color: -fx-primary;
+    -fx-pref-width : 180;
+    -fx-pref-height : 60;
+}
+
+.tab-header-background{
+    -fx-background-color: -fx-primary;
+}

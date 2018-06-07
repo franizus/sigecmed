@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="stackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="471.0" prefWidth="900.0" stylesheets="@../resources/tabPane.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="admin.AdminViewController">
+    <children>
+        <AnchorPane id="AnchorPane" prefHeight="471.0" prefWidth="900.0">
+            <children>
+               <JFXTabPane>
+                  <tabs>
+                   <Tab text="Doctor">
+                     <content>
+                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="411.0" prefWidth="885.0">
+                              <children>
+                                 <GridPane layoutX="29.0" layoutY="21.0" prefHeight="348.0" prefWidth="400.0">
+                                   <columnConstraints>
+                                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="194.0" minWidth="10.0" prefWidth="145.0" />
+                                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="280.0" minWidth="10.0" prefWidth="255.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="259.0" minWidth="10.0" prefWidth="29.0" />
+                                   </columnConstraints>
+                                   <rowConstraints>
+                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                   </rowConstraints>
+                                    <children>
+                                       <Label text="Nombre">
+                                          <font>
+                                             <Font name="System Bold" size="18.0" />
+                                          </font>
+                                       </Label>
+                                       <Label text="Cédula" GridPane.rowIndex="1">
+                                          <font>
+                                             <Font name="System Bold" size="18.0" />
+                                          </font>
+                                       </Label>
+                                       <Label text="Dirección" GridPane.rowIndex="2">
+                                          <font>
+                                             <Font name="System Bold" size="18.0" />
+                                          </font>
+                                       </Label>
+                                       <Label text="Teléfono" GridPane.rowIndex="3">
+                                          <font>
+                                             <Font name="System Bold" size="18.0" />
+                                          </font>
+                                       </Label>
+                                       <Label text="Correo" GridPane.rowIndex="4">
+                                          <font>
+                                             <Font name="System Bold" size="18.0" />
+                                          </font>
+                                       </Label>
+                                       <Label text="Especialidad" GridPane.rowIndex="5">
+                                          <font>
+                                             <Font name="System Bold" size="18.0" />
+                                          </font>
+                                       </Label>
+                                       <JFXTextField fx:id="nombreDocText" GridPane.columnIndex="1" />
+                                       <JFXTextField fx:id="cedulaDocText" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                       <JFXTextField fx:id="dirDocText" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                       <JFXTextField fx:id="telfDocText" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                       <JFXTextField fx:id="correoDocText" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                       <JFXComboBox fx:id="especialidadCombo" prefHeight="31.0" prefWidth="269.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <Label text="*" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
+                                    <Label text="*" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                                    <Label text="*" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+                                    <Label text="*" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+                                    </children>
+                                 </GridPane>
+                                 <JFXTreeTableView fx:id="docTable" layoutX="463.0" layoutY="21.0" onMouseClicked="#handleDocTable" prefHeight="298.0" prefWidth="420.0" />
+                                 <JFXButton fx:id="btnDocCancelar" layoutX="463.0" layoutY="354.0" onAction="#cancelarDoctor" prefHeight="30.0" prefWidth="100.0" text="Cancelar">
+                                    <font>
+                                       <Font name="System Bold" size="15.0" />
+                                    </font></JFXButton>
+                                 <JFXButton fx:id="btnDocGuardar" layoutX="783.0" layoutY="350.0" onAction="#guardarDoctor" stylesheets="@../resources/button.css" text="Guardar" textFill="WHITE" />
+                                 <JFXButton fx:id="btnDocEliminar" layoutX="623.0" layoutY="354.0" onAction="#eliminarDoctor" prefHeight="30.0" prefWidth="100.0" text="Eliminar">
+                                    <font>
+                                       <Font name="System Bold" size="15.0" />
+                                    </font></JFXButton>
+                              </children>
+                           </AnchorPane>
+                     </content>
+                   </Tab>
+                   <Tab text="Secretaría">
+                        <content>
+                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="411.0" prefWidth="885.0" style="-fx-background-color: WHITE;">
+                              <children>
+                                 <GridPane layoutX="29.0" layoutY="21.0" prefHeight="348.0" prefWidth="400.0">
+                                    <columnConstraints>
+                                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="194.0" minWidth="10.0" prefWidth="145.0" />
+                                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="296.0" minWidth="10.0" prefWidth="288.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="259.0" minWidth="10.0" prefWidth="52.0" />
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    </rowConstraints>
+                                    <children>
+                                       <Label text="Nombre">
+                                          <font>
+                                             <Font name="System Bold" size="18.0" />
+                                          </font>
+                                       </Label>
+                                       <Label text="Cédula" GridPane.rowIndex="1">
+                                          <font>
+                                             <Font name="System Bold" size="18.0" />
+                                          </font>
+                                       </Label>
+                                       <Label text="Dirección" GridPane.rowIndex="2">
+                                          <font>
+                                             <Font name="System Bold" size="18.0" />
+                                          </font>
+                                       </Label>
+                                       <Label text="Teléfono" GridPane.rowIndex="3">
+                                          <font>
+                                             <Font name="System Bold" size="18.0" />
+                                          </font>
+                                       </Label>
+                                       <Label text="Correo" GridPane.rowIndex="4">
+                                          <font>
+                                             <Font name="System Bold" size="18.0" />
+                                          </font>
+                                       </Label>
+                                       <JFXTextField fx:id="nombreSecText" GridPane.columnIndex="1" />
+                                       <JFXTextField fx:id="cedulaSecText" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                       <JFXTextField fx:id="dirSecText" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                       <JFXTextField fx:id="telfSecText" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                       <JFXTextField fx:id="correoSecText" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <Label text="*" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
+                                    <Label text="*" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                                    <Label text="*" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+                                    </children>
+                                 </GridPane>
+                                 <JFXTreeTableView fx:id="secTable" layoutX="463.0" layoutY="21.0" onMouseClicked="#handleSecTable" prefHeight="298.0" prefWidth="424.0" />
+                                 <JFXButton fx:id="btnSecCancelar" layoutX="463.0" layoutY="354.0" onAction="#cancelarSecretaria" prefHeight="30.0" prefWidth="100.0" text="Cancelar">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font></JFXButton>
+                                 <JFXButton fx:id="btnSecGuardar" layoutX="787.0" layoutY="351.0" onAction="#guardarSecretaria" stylesheets="@../resources/button.css" text="Guardar" textFill="WHITE" />
+                                 <JFXButton fx:id="btnSecEliminar" layoutX="625.0" layoutY="354.0" onAction="#eliminarSecretaria" prefHeight="30.0" prefWidth="100.0" text="Eliminar">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font></JFXButton>
+                              </children>
+                           </AnchorPane>
+                        </content>
+                   </Tab>
+                     <Tab text="Usuarios">
+                        <content>
+                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="411.0" prefWidth="535.0" style="-fx-background-color: WHITE;">
+                              <children>
+                                 <JFXButton fx:id="btnUsuarioBuscar" layoutX="468.0" layoutY="40.0" prefHeight="28.0" prefWidth="118.0" style="-fx-background-color: rgb(77,102,204);" text="Buscar" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font></JFXButton>
+                                 <GridPane layoutX="44.0" layoutY="14.0" prefHeight="348.0" prefWidth="400.0">
+                                    <columnConstraints>
+                                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="194.0" minWidth="10.0" prefWidth="115.0" />
+                                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="318.0" minWidth="10.0" prefWidth="266.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="283.0" minWidth="10.0" prefWidth="22.0" />
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    </rowConstraints>
+                                    <children>
+                                       <Label text="Rol">
+                                          <font>
+                                             <Font name="System Bold" size="18.0" />
+                                          </font>
+                                       </Label>
+                                       <Label text="Nombre" GridPane.rowIndex="1">
+                                          <font>
+                                             <Font name="System Bold" size="18.0" />
+                                          </font>
+                                       </Label>
+                                       <Label text="Usuario" GridPane.rowIndex="2">
+                                          <font>
+                                             <Font name="System Bold" size="18.0" />
+                                          </font>
+                                       </Label>
+                                       <Label text="Contraseña" GridPane.rowIndex="3">
+                                          <font>
+                                             <Font name="System Bold" size="18.0" />
+                                          </font>
+                                       </Label>
+                                       <JFXTextField fx:id="nombreUsuarioText" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                       <JFXTextField fx:id="usuarioText" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                       <JFXComboBox fx:id="rolCombo" onAction="#comboAction" prefHeight="31.0" prefWidth="267.0" GridPane.columnIndex="1" />
+                                       <JFXPasswordField fx:id="passwordText" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <Label text="*" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
+                                    <Label text="*" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                                    <Label text="*" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                                    </children>
+                                 </GridPane>
+                                 <JFXTreeTableView fx:id="tableUsers" layoutX="468.0" layoutY="86.0" onMouseClicked="#handleUserTable" prefHeight="253.0" prefWidth="418.0" />
+                                 <JFXButton fx:id="btnUserCancelar" layoutX="468.0" layoutY="358.0" onAction="#cancelarUsuario" prefHeight="30.0" prefWidth="100.0" text="Cancelar">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font></JFXButton>
+                                 <JFXButton fx:id="btnUserGuardar" layoutX="786.0" layoutY="354.0" onAction="#guardarUsuario" stylesheets="@../resources/button.css" text="Guardar" textFill="WHITE" />
+                                 <JFXButton fx:id="btnUserEliminar" layoutX="627.0" layoutY="358.0" onAction="#eliminarUsuario" prefHeight="30.0" prefWidth="100.0" text="Eliminar">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font></JFXButton>
+                              </children>
+                           </AnchorPane>
+                        </content>
+                     </Tab>
+                     <Tab text="Especialidad">
+                       <content>
+                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="411.0" prefWidth="535.0" style="-fx-background-color: WHITE;">
+                              <children>
+                                 <GridPane layoutX="41.0" layoutY="27.0" prefHeight="30.0" prefWidth="679.0">
+                                   <columnConstraints>
+                                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.0" minWidth="10.0" prefWidth="210.0" />
+                                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="439.0" minWidth="10.0" prefWidth="433.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="391.0" minWidth="10.0" prefWidth="36.0" />
+                                   </columnConstraints>
+                                   <rowConstraints>
+                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                   </rowConstraints>
+                                    <children>
+                                       <Label text="Nombre Especialidad">
+                                          <font>
+                                             <Font name="System Bold" size="18.0" />
+                                          </font>
+                                       </Label>
+                                       <JFXTextField fx:id="especialidadText" prefHeight="31.0" prefWidth="378.0" GridPane.columnIndex="1" />
+                                    <Label text="*" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
+                                    </children>
+                                 </GridPane>
+                                 <JFXButton fx:id="btnEspEliminar" layoutX="771.0" layoutY="352.0" onAction="#eliminarEsp" prefHeight="30.0" prefWidth="100.0" text="Eliminar">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font></JFXButton>
+                                 <JFXButton fx:id="btnEspGuardar" layoutX="771.0" layoutY="23.0" onAction="#guardarEsp" prefHeight="43.0" prefWidth="118.0" stylesheets="@../resources/button.css" text="Guardar" textFill="WHITE" />
+                                 <JFXTreeTableView fx:id="tableEspecialidad" layoutX="41.0" layoutY="87.0" onMouseClicked="#handleEspTable" prefHeight="296.0" prefWidth="678.0" />
+                              <JFXButton fx:id="btnEspCancelar" layoutX="771.0" layoutY="310.0" onAction="#cancelarEsp" prefHeight="30.0" prefWidth="100.0" text="Cancelar">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                              </JFXButton>
+                              </children></AnchorPane>
+                       </content>
+                     </Tab>
+                     <Tab text="Auditoría">
+                       <content>
+                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: WHITE;">
+                           <children>
+                              <JFXTreeTableView fx:id="tableAuditoria" layoutX="27.0" layoutY="20.0" prefHeight="372.0" prefWidth="862.0" />
+                           </children>
+                           </AnchorPane>
+                       </content>
+                     </Tab>
+                  </tabs>
+               </JFXTabPane>
+            </children>
+         </AnchorPane>
+    </children>
+</StackPane>
