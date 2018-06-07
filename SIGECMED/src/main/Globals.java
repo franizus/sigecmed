@@ -5,11 +5,12 @@
  */
 package main;
 
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.GraphicsEnvironment;
-import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -17,9 +18,35 @@ import java.io.IOException;
  */
 public class Globals {
     
-    public static String driverClassName = "com.mysql.cj.jdbc.Driver";
-    public static String dbURL = "jdbc:mysql://localhost:3306/sigecmed_db";
-    public static String dbUSER = "sigecmed_adm";
-    public static String dbPassword = "sigecmedADMIN";
+    public final static String driverClassName;
+    public final static String dbURL;
+    public final static String dbUSER;
+    public final static String dbPassword;
+    
+    static {
+        FileInputStream in = null;
+        Properties props = null;
+        try {
+            props = new Properties();
+            in = new FileInputStream("database.properties");
+            props.load(in);
+            in.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Globals.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Globals.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                in.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Globals.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        driverClassName = props.getProperty("jdbc.driver");
+        dbURL = props.getProperty("jdbc.url");
+        dbUSER = props.getProperty("jdbc.username");
+        dbPassword = props.getProperty("jdbc.password");
+    }
     
 }
