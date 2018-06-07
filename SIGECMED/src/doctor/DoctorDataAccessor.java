@@ -22,9 +22,8 @@ public class DoctorDataAccessor {
     
     private Connection connection;
     
-    public DoctorDataAccessor(String driverClassName, String dbURL, String user, String password) throws SQLException, ClassNotFoundException {
-        Class.forName(driverClassName);
-        connection = DriverManager.getConnection(dbURL, user, password);
+    public DoctorDataAccessor(String dbURL) throws SQLException {
+        connection = DriverManager.getConnection(dbURL);
     }
     
     public void shutdown() throws SQLException {

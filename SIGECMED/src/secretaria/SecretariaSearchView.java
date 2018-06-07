@@ -39,10 +39,8 @@ public class SecretariaSearchView extends AnchorPane {
     public SecretariaSearchView() {
         
         try {
-            secretariaDataAccessor = new SecretariaDataAccessor(Globals.driverClassName, Globals.dbURL, Globals.dbUSER, Globals.dbPassword);
+            secretariaDataAccessor = new SecretariaDataAccessor(Globals.dbURL);
         } catch (SQLException ex) {
-            Logger.getLogger(LogginViewController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
             Logger.getLogger(LogginViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
 

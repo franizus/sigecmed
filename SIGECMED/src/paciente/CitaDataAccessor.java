@@ -5,7 +5,6 @@
  */
 package paciente;
 
-import doctor.Doctor;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -25,9 +24,8 @@ public class CitaDataAccessor {
     
     private Connection connection;
     
-    public CitaDataAccessor(String driverClassName, String dbURL, String user, String password) throws SQLException, ClassNotFoundException {
-        Class.forName(driverClassName);
-        connection = DriverManager.getConnection(dbURL, user, password);
+    public CitaDataAccessor(String dbURL) throws SQLException {
+        connection = DriverManager.getConnection(dbURL);
     }
     
     public void shutdown() throws SQLException {

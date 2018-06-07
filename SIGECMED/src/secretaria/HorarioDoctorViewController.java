@@ -85,11 +85,9 @@ public class HorarioDoctorViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         try {
-            doctorDataAccessor = new DoctorDataAccessor(Globals.driverClassName, Globals.dbURL, Globals.dbUSER, Globals.dbPassword);
-            horarioDataAccessor = new HorarioDataAccessor(Globals.driverClassName, Globals.dbURL, Globals.dbUSER, Globals.dbPassword);
+            doctorDataAccessor = new DoctorDataAccessor(Globals.dbURL);
+            horarioDataAccessor = new HorarioDataAccessor(Globals.dbURL);
         } catch (SQLException ex) {
-            Logger.getLogger(LogginViewController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
             Logger.getLogger(LogginViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
         

@@ -78,10 +78,8 @@ public class PacienteViewController implements Initializable {
         pacienteSelected = false;
         
         try {
-            pacienteDataAccessor = new PacienteDataAccessor(Globals.driverClassName, Globals.dbURL, Globals.dbUSER, Globals.dbPassword);
+            pacienteDataAccessor = new PacienteDataAccessor(Globals.dbURL);
         } catch (SQLException ex) {
-            Logger.getLogger(LogginViewController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
             Logger.getLogger(LogginViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
         

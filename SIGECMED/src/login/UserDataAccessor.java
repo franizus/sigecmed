@@ -22,9 +22,8 @@ public class UserDataAccessor {
     
     private Connection connection;
     
-    public UserDataAccessor(String driverClassName, String dbURL, String user, String password) throws SQLException, ClassNotFoundException {
-        Class.forName(driverClassName);
-        connection = DriverManager.getConnection(dbURL, user, password);
+    public UserDataAccessor(String dbURL) throws SQLException {
+        connection = DriverManager.getConnection(dbURL);
     }
     
     public void shutdown() throws SQLException {

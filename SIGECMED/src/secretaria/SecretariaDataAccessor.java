@@ -22,9 +22,8 @@ public class SecretariaDataAccessor {
     
     private Connection connection;
     
-    public SecretariaDataAccessor(String driverClassName, String dbURL, String user, String password) throws SQLException, ClassNotFoundException {
-        Class.forName(driverClassName);
-        connection = DriverManager.getConnection(dbURL, user, password);
+    public SecretariaDataAccessor(String dbURL) throws SQLException {
+        connection = DriverManager.getConnection(dbURL);
     }
     
     public void shutdown() throws SQLException {

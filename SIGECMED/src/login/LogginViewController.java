@@ -54,10 +54,8 @@ public class LogginViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            dataAccessor = new UserDataAccessor(Globals.driverClassName, Globals.dbURL, Globals.dbUSER, Globals.dbPassword);
+            dataAccessor = new UserDataAccessor(Globals.dbURL);
         } catch (SQLException ex) {
-            Logger.getLogger(LogginViewController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
             Logger.getLogger(LogginViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
         

@@ -24,9 +24,8 @@ public class HorarioDataAccessor {
     
     private Connection connection;
     
-    public HorarioDataAccessor(String driverClassName, String dbURL, String user, String password) throws SQLException, ClassNotFoundException {
-        Class.forName(driverClassName);
-        connection = DriverManager.getConnection(dbURL, user, password);
+    public HorarioDataAccessor(String dbURL) throws SQLException {
+        connection = DriverManager.getConnection(dbURL);
     }
     
     public void shutdown() throws SQLException {

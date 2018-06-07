@@ -125,12 +125,10 @@ public class AdminViewController implements Initializable {
         userSelected = false;
         
         try {
-            userDataAccessor = new UserDataAccessor(Globals.driverClassName, Globals.dbURL, Globals.dbUSER, Globals.dbPassword);
-            doctorDataAccessor = new DoctorDataAccessor(Globals.driverClassName, Globals.dbURL, Globals.dbUSER, Globals.dbPassword);
-            secretariaDataAccessor = new SecretariaDataAccessor(Globals.driverClassName, Globals.dbURL, Globals.dbUSER, Globals.dbPassword);
+            userDataAccessor = new UserDataAccessor(Globals.dbURL);
+            doctorDataAccessor = new DoctorDataAccessor(Globals.dbURL);
+            secretariaDataAccessor = new SecretariaDataAccessor(Globals.dbURL);
         } catch (SQLException ex) {
-            Logger.getLogger(LogginViewController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
             Logger.getLogger(LogginViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
         

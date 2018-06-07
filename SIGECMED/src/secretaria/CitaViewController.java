@@ -89,13 +89,11 @@ public class CitaViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            doctorDataAccessor = new DoctorDataAccessor(Globals.driverClassName, Globals.dbURL, Globals.dbUSER, Globals.dbPassword);
-            horarioDataAccessor = new HorarioDataAccessor(Globals.driverClassName, Globals.dbURL, Globals.dbUSER, Globals.dbPassword);
-            pacienteDataAccessor = new PacienteDataAccessor(Globals.driverClassName, Globals.dbURL, Globals.dbUSER, Globals.dbPassword);
-            citaDataAccessor = new CitaDataAccessor(Globals.driverClassName, Globals.dbURL, Globals.dbUSER, Globals.dbPassword);
+            doctorDataAccessor = new DoctorDataAccessor(Globals.dbURL);
+            horarioDataAccessor = new HorarioDataAccessor(Globals.dbURL);
+            pacienteDataAccessor = new PacienteDataAccessor(Globals.dbURL);
+            citaDataAccessor = new CitaDataAccessor(Globals.dbURL);
         } catch (SQLException ex) {
-            Logger.getLogger(LogginViewController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
             Logger.getLogger(LogginViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
